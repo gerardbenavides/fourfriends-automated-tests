@@ -1,6 +1,5 @@
 require('dotenv').config()
 chance = require('chance').Chance();
-//expect = require('chai').expect;
 
 exports.config = {
     //
@@ -29,6 +28,9 @@ exports.config = {
         ],
         signup: [
             './test/specs/auth/signup_consumer.spec.js',
+        ],
+        bonus_coupon: [
+            './test/specs/coupon/create_bonus.spec.js',
         ]
     },
     // Patterns to exclude.
@@ -78,7 +80,7 @@ exports.config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'silent',
+    logLevel: 'info',
     //
     // Set specific log levels per logger
     // loggers:
@@ -194,8 +196,10 @@ exports.config = {
         LoginPage = require('./test/pages/login.page');
         ProfilePage = require('./test/pages/profile.page');
         ConsumerProfilePage = require('./test/pages/profile_consumer.page');
+        CouponCreatedPage = require('./test/pages/coupon_created.page');
 
         Random = require('./test/helpers/random');
+        path = require('path')
     },
     /**
      * Runs before a WebdriverIO command gets executed.
