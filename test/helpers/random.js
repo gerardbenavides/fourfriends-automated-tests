@@ -21,6 +21,9 @@ class Random {
     city () {
         return chance.city()
     }
+    string () {
+        return chance.string({ length: 15, casing: 'upper', alpha: true, numeric: true });
+    }
 }
 
 module.exports = new Random();
