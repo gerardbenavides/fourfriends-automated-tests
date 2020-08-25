@@ -29,8 +29,8 @@ exports.config = {
         signup: [
             './test/specs/auth/signup_consumer.spec.js',
         ],
-        bonus_coupon: [
-            './test/specs/coupon/create_bonus.spec.js',
+        coupon_bonus: [
+            './test/specs/coupon/coupon_bonus.spec.js',
         ]
     },
     // Patterns to exclude.
