@@ -1,9 +1,21 @@
 const Page = require('./page');
 
 class CouponCreatedPage extends Page {
-    get title () { return $('//div[@class="header-container"]')}
-    get btnCreateCoupon () { return $('//button[@class="label button-primary"]')}
     
+    /** TABS */
+    get tabBonus () { return $('//span[@class="body-1"][contains(text(),"Bonus")]')}
+    get tabCampaign () { return $('//span[@class="body-1"][contains(text(),"Kampanj")]')}
+
+    /** VIEW COUPON BUTTONS */
+    get btnDeleteCoupon () { return $('//app-button[@class="action-delete"]//button[@class="label button-clear"]')}
+    get popupBtnDelete () { return $('//button[@class="label button-primary button-warning"]')}
+    get popupBtnCancel () { return $('//div[@class="action-container ng-star-inserted"]//button[@class="label button-clear"]')}
+    get btnEditCoupon () { return $('//div[@class="button-container edit"]//button[@class="label button-clear"]')}
+    get btnPublishCoupon () { return $('//div[@class="button-container publish-container"]//button[@class="label button-primary"]')}
+    get popupBtnPublish () { return $('//div[@class="action-container"]//button[@class="label button-primary"]')}
+    get checkboxNotification () { return $('//div[@class="checkbox flex-center cboxFillPrimary"]')}
+
+    // CREATE COUPON //
     /** STEP 1 */
     get inputName () { return $('//input[@placeholder="Skriv in kupongnamn"]')}
     get calendar () { return $('//div[@class="date-container flex-cross-center clickable"]')}
@@ -18,9 +30,9 @@ class CouponCreatedPage extends Page {
     get btnProceed () { return $('//button[@class="label button-primary"]')}
 
     /** STEP 2 */
-    get inputConsumerReward () { return $('//div[@class="bonus-rewards-wrapper flex-cross-center"]//div[1]//div[1]//div[2]//div[1]//div[1]//div[2]//input[1]')};
-    get inputHunterReward () { return $('/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-coupon-create[1]/div[1]/div[2]/div[1]/div[1]/div[2]/form[1]/div[1]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/input[1]')};
-    get inputBreederReward () { return $('/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-coupon-create[1]/div[1]/div[2]/div[1]/div[1]/div[2]/form[1]/div[1]/div[3]/div[1]/div[2]/div[1]/div[1]/div[2]/input[1]')};
+    get inputConsumerReward () { return $('//input[@formcontrolname="consumerReward"]')};
+    get inputHunterReward () { return $('//input[@formcontrolname="hunter"]')};
+    get inputBreederReward () { return $('//input[@formcontrolname="breeder"]')};
     get singleProduct () { return $('/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-coupon-create[1]/div[1]/div[2]/div[1]/div[1]/div[2]/form[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]')}
     get groupProduct () { return $('//span[contains(text(),"Grupp")]')}
     get dropdownProduct () { return $('//div[@class="main-wrapper flex-cross-center"]')}
@@ -43,7 +55,7 @@ class CouponCreatedPage extends Page {
     get summaryBreederCondition () { return $('//div[@class="points-container"]//div[2]//div[2]')}
     get summaryHunterCondition () { return $('//div[@class="points-container"]//div[3]//div[2]')}
 
-    /** PREVIEW */
+    /** PREVIEW COUPON */
     get previewCouponName () { return $('//div[@class="coupon-title"]')}
     get previewPetType () { return $('//div[@class="coupon-pet"]')}
     get previewCouponType () { return $('//div[@class="coupon-validity-type flex-main-between flex-cross-center"]')}
@@ -54,7 +66,8 @@ class CouponCreatedPage extends Page {
     get previewConsumerCondition () { return $('//div[@class="field-main-container ng-star-inserted"]//div[@class="points-container ng-star-inserted"]//div[1]//div[2]')}
     get previewBreederCondition () { return $('//div[@class="field-main-container ng-star-inserted"]//div[@class="points-container ng-star-inserted"]//div[2]//div[2]')}
     get previewHunterCondition () { return $('//div[@class="field-main-container ng-star-inserted"]//div[@class="points-container ng-star-inserted"]//div[3]//div[2]')}
-    /** METHODS */
+    
+   /** METHODS */
 
     uploadDefaultImg() {
         let fileUpload = this.inputImage
@@ -66,7 +79,21 @@ class CouponCreatedPage extends Page {
         );
         fileUpload.waitForDisplayed();
 
-        let filePath = path.join(__dirname, '../../data/images/sample.png');
+        let filePath = path.join(__dirname, '../../data/images/both.png');
+        fileUpload.setValue(filePath)
+
+    }
+    uploadNewImg() {
+        let fileUpload = this.inputImage
+        browser.execute(
+            // assign style to elem in the browser
+            (el) => el.style.display = 'block',
+            // pass in element so we don't need to query it again in the browser
+            fileUpload
+        );
+        fileUpload.waitForDisplayed();
+
+        let filePath = path.join(__dirname, '../../data/images/dog.png');
         fileUpload.setValue(filePath)
 
     }
@@ -129,6 +156,46 @@ class CouponCreatedPage extends Page {
         expect(this.previewConsumerCondition).toHaveText(consuCondition + "/" + consuCondition + " poäng");
         expect(this.previewBreederCondition).toHaveText("0/0 poäng");
         expect(this.previewHunterCondition).toHaveText("0/0 poäng");
+    }
+
+    editBonusCoupon (name, prioNum, desc, consuReward, huntReward, breedReward, consuCondition) {
+        
+        /** STEP 1 */
+        this.inputName.setValue(name)
+        this.inputPrioNumber.setValue(prioNum)
+        this.petDog.click(); // Edits from Both into Dog
+        this.inputDescription.setValue(desc);
+        this.uploadNewImg(); // Edits coupon image
+        //browser.pause(3000)
+        this.btnProceed.click();
+
+        /** STEP 2 */
+        this.inputConsumerReward.setValue(consuReward);
+        this.inputHunterReward.setValue(huntReward);
+        this.inputBreederReward.setValue(breedReward);
+        //browser.pause(3000)
+        this.btnProceed.click();
+
+        /** STEP 3 */
+        this.inputConsumerCondition.setValue(consuCondition);
+        //browser.pause(3000)
+        this.btnProceed.click();
+
+        /** SUMMARY */
+        this.summaryTitle.waitForDisplayed()
+        expect(this.summaryTitle).toHaveText("Förhandsvisa kupong");
+        expect(this.summaryCouponName).toHaveText(name);
+        expect(this.summaryDescription).toHaveText(desc);
+        expect(this.summaryPetType).toHaveText("För hund");
+        expect(this.summaryConsumerReward).toHaveText(consuReward + "% rabatt");
+        expect(this.summaryBreederReward).toHaveText(breedReward + "% rabatt");
+        expect(this.summaryHunterReward).toHaveText(huntReward + "% rabatt");
+        expect(this.summaryConsumerCondition).toHaveText(consuCondition + "/" + consuCondition + " poäng");
+        expect(this.summaryBreederCondition).toHaveText("0/0 poäng");
+        expect(this.summaryHunterCondition).toHaveText("0/0 poäng");
+
+        this.btnProceed.click();
+        this.summaryCouponName.waitForDisplayed();
     }
     open () {
         return super.open('coupon/list');
