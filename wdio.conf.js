@@ -31,7 +31,12 @@ exports.config = {
         ],
         coupon_bonus: [
             './test/specs/coupon/coupon_bonus.spec.js',
+        ],
+        delete_created_coupons: [
+            './test/specs/misc/deleteCreatedBonusCoupons.spec.js',
+            './test/specs/misc/deleteCreatedCampaignCoupons.spec.js'
         ]
+        
     },
     // Patterns to exclude.
     exclude: [
@@ -80,7 +85,7 @@ exports.config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'error',
+    logLevel: 'trace',
     //
     // Set specific log levels per logger
     // loggers:
