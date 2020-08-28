@@ -1,16 +1,13 @@
-const Page = require('./page');
+const Page = require('../page');
 
-/**
- * sub page containing specific selectors and methods for a specific page
- */
 class ProfilePage extends Page {
     /**
      * define selectors using getter methods
      */
     //
     
-    get profileName () { return $('//div[@class="name-container flex-center"]')}
-    get userEmail () { return $('//div[@class="email-container flex-center"]') }
+    get profileName () { return $('//div[@class="name-container flex-start-center"]')}
+    get userEmail () { return $('//div[@class="email-container flex-start-center"]') }
     /**
      * overwrite specifc options to adapt it to page object
      */

@@ -1,4 +1,4 @@
-const Page = require('./page');
+const Page = require('../page');
 
 class SignupPage extends Page {
     get title () { return $('//div[@class="header-container flex-center"]//span')}
