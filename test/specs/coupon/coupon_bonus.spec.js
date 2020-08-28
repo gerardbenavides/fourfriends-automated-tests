@@ -1,10 +1,13 @@
-const CouponCreatedPage = require('../../pages/coupon_created.page') 
-const CouponMainPage = require('../../pages/coupon_main.page') 
+const LoginPage = require('../../pages/auth/login.page');
+const CouponCreatedPage = require('../../pages/coupon/coupon_created.page') 
+const CouponMainPage = require('../../pages/coupon/coupon_main.page') 
+const CouponPublishedPage = require('../../pages/coupon/coupon_published.page')
+
 
 let couponName = Random.string();
 
-describe('Create Bonus Coupon', () => {
-
+describe('Bonus Coupon', () => {
+    
     it('Logs in Netzon Admin with valid credentials', () => {
         LoginPage.open()
         LoginPage.login(process.env.STAGING_ADMIN_EMAIL, process.env.STAGING_ADMIN_PASS);  
@@ -32,12 +35,12 @@ describe('Create Bonus Coupon', () => {
     })
 
     it('Clicks and previews the created coupon', () => {
-        let createdCouponLocator = $('//span[@class="body-1"][contains(text(),"' +couponName+ '")]');
-        //let createdCouponLocator = $('//span[@class="body-1"][contains(text(),"C917G4I8Z4FC311")]');
+        //let createdCouponLocator = $('//span[@class="body-1"][contains(text(),"' +couponName+ '")]');
         
-        createdCouponLocator.waitForDisplayed();
-        createdCouponLocator.click();
-        expect(CouponCreatedPage.summaryCouponName).toHaveText(couponName)
+        CouponMainPage.createdCouponLocator(couponName).isDisplayed();
+
+        CouponMainPage.createdCouponLocator(couponName).click();
+        expect(CouponCreatedPage.previewCouponName).toHaveText(couponName)
     })
 
     it('Validates the created Bonus Coupon\'s details', () => {
@@ -71,8 +74,38 @@ describe('Create Bonus Coupon', () => {
         CouponCreatedPage.popupBtnPublish.waitForClickable();
         CouponCreatedPage.popupBtnPublish.click();
 
-        CouponCreatedPage.tabBonus.waitForDisplayed();
+        CouponMainPage.tabBonus.waitForDisplayed();
     })
+
+    it('Validates if Bonus Coupon is published', () => {
+        
+        CouponMainPage.tabPublished.click();
+
+        CouponMainPage.createdCouponLocator(couponName).waitForDisplayed();
+        expect(CouponMainPage.createdCouponLocator(couponName)).toHaveText(couponName + "~Edited");
+
+    })
+
+    it('Unpublishes Bonus Coupon', () => {
+        CouponMainPage.createdCouponLocator(couponName).click();
+
+        CouponPublishedPage.btnUnpublishCoupon.click();
+        CouponPublishedPage.popupBtnUnpublish.click();
+        
+        CouponMainPage.tabBonus.waitForDisplayed();
+    })
+
+    it('Deletes the Bonus Coupon', () => {
+        CouponMainPage.tabCreated.click();
+
+        CouponMainPage.createdCouponLocator(couponName).click();
+
+        CouponCreatedPage.btnDeleteCoupon.click();
+        CouponCreatedPage.popupBtnDelete.click();
+
+        CouponMainPage.tabBonus.waitForDisplayed();
+    })
+
 });
 
 
