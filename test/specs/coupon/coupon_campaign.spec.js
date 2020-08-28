@@ -4,7 +4,7 @@ const CouponMainPage = require('../../pages/coupon/coupon_main.page')
 const CouponPublishedPage = require('../../pages/coupon/coupon_published.page')
 
 
-let couponName = Random.string();
+let couponName = ("Campaign~"+Random.string());
 
 describe('Campaign Coupon', () => {
     
@@ -13,62 +13,50 @@ describe('Campaign Coupon', () => {
         LoginPage.login(process.env.STAGING_ADMIN_EMAIL, process.env.STAGING_ADMIN_PASS);  
     });
 
-    it('Creates a Bonus Coupon', () => {
+    it('Creates a Campaign Coupon', () => {
         CouponMainPage.open();
         CouponMainPage.btnCreateCoupon.click();
         
-        CouponCreatedPage.createBonusCoupon(
+        CouponCreatedPage.createCampaignCoupon(
             couponName, // Coupon name parameter
             '1', // Coupon prio number parameter
-            'this is description', // Coupon description parameter
-            '10', // Consumer's reward percentage
-            '20', // Hunter's reward percentage
-            '15', //Breeder's reward percentage
-            '5', // Consumer's condition to achieve
+            'this is description for campaign coupon', // Coupon description parameter
+            '1', // Campaign reward Max Aggregate
             );
-        CouponMainPage.title.waitForDisplayed();
     })
 
-    it('Searches the created Bonus Coupon', () => {
+    it('Searches the created Campaign Coupon', () => {
+        CouponMainPage.tabCampaign.click();
         CouponMainPage.iconSearch.click();
         CouponMainPage.inputSearch.setValue(couponName);
     })
 
-    it('Clicks and previews the created coupon', () => {
-        //let createdCouponLocator = $('//span[@class="body-1"][contains(text(),"' +couponName+ '")]');
-        
+    it('Clicks and previews the created Campaign coupon', () => {        
         CouponMainPage.createdCouponLocator(couponName).isDisplayed();
 
         CouponMainPage.createdCouponLocator(couponName).click();
         expect(CouponCreatedPage.previewCouponName).toHaveText(couponName)
     })
 
-    it('Validates the created Bonus Coupon\'s details', () => {
+    it('Validates the created Campaign Coupon\'s details', () => {
         CouponCreatedPage.validateBonusCoupon(
             couponName, // Coupon name parameter
-            '1', // Coupon prio number parameter
-            'this is description', // Coupon description parameter
-            '10', // Consumer's reward percentage
-            '20', // Hunter's reward percentage
-            '15', //Breeder's reward percentage
-            '5', // Consumer's condition to achieve
+            'this is description for campaign coupon', // Coupon description parameter
             );
         })
 
-    it('Edits the created Bonus Coupon', () => {
+    it('Edits the created Campaign Coupon', () => {
         CouponCreatedPage.btnEditCoupon.click();
 
-        CouponCreatedPage.editBonusCoupon(
+        CouponCreatedPage.editCampaignCoupon(
             couponName + '~Edited', // Coupon name parameter
             '10', // Coupon prio number parameter
             'This is an updated coupon description', // Coupon description parameter
-            '15', // Consumer's reward percentage
-            '25', // Hunter's reward percentage
-            '20', //Breeder's reward percentage
-            '10', // Consumer's condition to achieve
+            '8', // Campaign reward Max Aggregate
             );
     });
-    it('Publishes the created Bonus Coupon', () => {
+
+    it('Publishes the created Campaign Coupon', () => {
 
         CouponCreatedPage.btnPublishCoupon.click();
         CouponCreatedPage.popupBtnPublish.waitForClickable();
@@ -77,7 +65,7 @@ describe('Campaign Coupon', () => {
         CouponMainPage.tabBonus.waitForDisplayed();
     })
 
-    it('Validates if Bonus Coupon is published', () => {
+    it('Validates if Campaign is published', () => {
         
         CouponMainPage.tabPublished.click();
 
@@ -86,7 +74,7 @@ describe('Campaign Coupon', () => {
 
     })
 
-    it('Unpublishes Bonus Coupon', () => {
+    it('Unpublishes Campaign Coupon', () => {
         CouponMainPage.createdCouponLocator(couponName).click();
 
         CouponPublishedPage.btnUnpublishCoupon.click();
@@ -95,7 +83,7 @@ describe('Campaign Coupon', () => {
         CouponMainPage.tabBonus.waitForDisplayed();
     })
 
-    it('Deletes the Bonus Coupon', () => {
+    it('Deletes the Campaign Coupon', () => {
         CouponMainPage.tabCreated.click();
 
         CouponMainPage.createdCouponLocator(couponName).click();
