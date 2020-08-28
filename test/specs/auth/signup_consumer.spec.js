@@ -1,3 +1,7 @@
+HomePage = require('../../pages//home/home.page');
+SignupPage = require('../../pages/auth/signup.page');
+LoginPage = require('../../pages/auth/login.page');
+ConsumerProfilePage = require('../../pages/coupon/profile_consumer.page');
 
 let email = Random.email();
 let firstName = Random.firstName();

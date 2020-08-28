@@ -1,3 +1,6 @@
+HomePage = require('../../pages/home/home.page');
+LoginPage = require('../../pages/auth/login.page');
+ProfilePage = require('../../pages/home/profile.page');
 
 describe('Logs in all Netzon admin users ', () => {
     LoginPage.open();

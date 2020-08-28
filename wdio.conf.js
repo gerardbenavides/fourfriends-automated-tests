@@ -35,7 +35,7 @@ exports.config = {
     },
     // Patterns to exclude.
     exclude: [
-        //'./test/specs/auth/login_users.spec.js'
+        //'./test/specs/misc/**.spec.js'
     ],
     //
     // ============
@@ -80,7 +80,7 @@ exports.config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'info',
+    logLevel: 'error',
     //
     // Set specific log levels per logger
     // loggers:
@@ -98,7 +98,7 @@ exports.config = {
     //
     // If you only want to run your tests until a specific amount of tests have failed use
     // bail (default is 0 - don't bail, run all tests).
-    bail: 0,
+    bail: 1,
     //
     // Set a base URL in order to shorten url command calls. If your `url` parameter starts
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
@@ -191,12 +191,7 @@ exports.config = {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
     before: function (capabilities, specs) {
-        HomePage = require('./test/pages/home.page');
-        SignupPage = require('./test/pages/signup.page');
-        LoginPage = require('./test/pages/login.page');
-        ProfilePage = require('./test/pages/profile.page');
-        ConsumerProfilePage = require('./test/pages/profile_consumer.page');
-        CouponCreatedPage = require('./test/pages/coupon_created.page');
+        browser.maximizeWindow();
 
         Random = require('./test/helpers/random');
         path = require('path')
