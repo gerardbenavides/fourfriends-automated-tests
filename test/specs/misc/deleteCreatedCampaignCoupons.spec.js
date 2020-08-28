@@ -4,12 +4,12 @@ const CouponMainPage = require('../../pages/coupon/coupon_main.page')
 
 describe('Deletes all coupons in Created > Campaign page', () => {
 
-    it.only('Logs in Netzon Admin with valid credentials', () => {
+    it('Logs in Netzon Admin with valid credentials', () => {
         LoginPage.open()
         LoginPage.login(process.env.STAGING_ADMIN_EMAIL, process.env.STAGING_ADMIN_PASS);  
     });
 
-    it.only('Delete Created Campaign Coupons', () => {
+    it('Delete Created Campaign Coupons', () => {
 
         CouponMainPage.tabCreated.click();
         CouponMainPage.tabCampaign.click();
