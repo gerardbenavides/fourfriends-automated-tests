@@ -24,6 +24,12 @@ class Random {
     string () {
         return chance.string({ length: 15, casing: 'upper', alpha: true, numeric: true });
     }
+    paragraph () {
+        return chance.paragraph({ sentences: 1 })
+    }
+    integer10 () {
+        return chance.integer({ min: 1111111111, max: 9999999999 })
+    }
 }
 
 module.exports = new Random();
