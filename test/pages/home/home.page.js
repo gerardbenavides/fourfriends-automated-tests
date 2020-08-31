@@ -6,6 +6,9 @@ class HomePage extends Page {
      */
     ////div[@class="name-container flex-center"]
     get btnMenuProducts() {return $('//div[@class="nav-items flex-expand"]//span[contains(text(),"Produkter")]')}
+    get btnMenuStore() {return $('//div[@class="nav-items flex-expand"]//span[contains(text(),"Återförsäljare")]')}
+    get btnMenuUsers() {return $('//div[@class="nav-items flex-expand"]//span[contains(text(),"Användare")]')}
+
     get btnMenuProfile () { return $('//div[@class="logout-container nav-items"]//div[1]//span')}
     get btnMenuLogout () { return $('//span[contains(text(),"Logga ut")]')}
     get btnActionOK () {return $('//div[@class="action-container"]//button[@class="label button-primary"]')}

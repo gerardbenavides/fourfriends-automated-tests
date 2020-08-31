@@ -66,7 +66,6 @@ class ProductsPage extends Page {
 
     createdGroupLocator (name) {
         return $('//div[@class="group-name flex-expand"]//span[contains(text(),"' +name+ '")]')
-    
     }
 
     isGroupExpanded (name) {
