@@ -10,9 +10,10 @@ class ProductsPage extends Page {
     get btnImport () { return $('//input[@type="file"]')}
     get popupImportSuccessTitle () { return $('//app-dialog-confirm//div[@class="title-container flex-cross-center"]')}
     get popupImportBtnOK () { return $('//app-dialog-confirm//button//span[contains(text(),"OK")]')}
-    get btnExport () { return $('//app-button[@class="action-export"]')}
-    get iconSearch () { return $('div.app-main-container.flex div.outlet-container.flex-expand.active-navbar app-product-list.ng-star-inserted:nth-child(2) div.main-container div.header-container div.main-container div.main-wrapper.flex-main-between div.right-container.flex-cross-center div.right-container.flex-cross-center div.action-search.icon-container.flex-center.clickable.ng-star-inserted > app-icon-svg:nth-child(1)')}    
+    get btnExport () { return $('//app-button[@class="action-export ng-star-inserted"]')}
+    get iconSearch () { return $('//body/app-root/div[@class="app-main-container flex"]/div[@class="outlet-container flex-expand active-navbar"]/app-product-list[@class="ng-star-inserted"]/div[@class="main-container"]/div[@class="header-container"]/app-header/div[@class="main-container"]/div[@class="main-wrapper flex-main-between"]/div[@class="right-container flex-cross-center"]/div[@class="right-container flex-cross-center"]/div[@class="action-search icon-container flex-center clickable ng-star-inserted"]/*[1]')}
     get inputSearch () { return $('//input[@placeholder="Sök produkt"]')}
+    get inputSearchGroup () { return $('//input[@placeholder="Sök produktgrupp"]')}
     get resultNotFound () { return $('//div[@class="placeholder-container flex-center ng-star-inserted"]//span[@class="header-6"]')}
     get btnBack () { return $('//div[@class="icon-container flex-center"]')}
     get popupBtnYes() { return $('//div[@class="action-container"]//button[@class="label button-primary"]')}
@@ -66,6 +67,12 @@ class ProductsPage extends Page {
     createdGroupLocator (name) {
         return $('//div[@class="group-name flex-expand"]//span[contains(text(),"' +name+ '")]')
     
+    }
+
+    isGroupExpanded (name) {
+        let createdGroup = $('//mat-expansion-panel-header[@aria-expanded="true"]')
+        
+        createdGroup.waitForDisplayed();
     }
     importFile() {
         let fileUpload = this.btnImport
