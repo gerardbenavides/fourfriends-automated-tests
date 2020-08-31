@@ -1,4 +1,4 @@
-LoginPage = require('../../pages/auth/login.page');
+const LoginPage = require('../../pages/auth/login.page');
 const CouponCreatedPage = require('../../pages/coupon/coupon_created.page') 
 const CouponMainPage = require('../../pages/coupon/coupon_main.page') 
 const CouponPublishedPage = require('../../pages/coupon/coupon_published.page')
@@ -39,7 +39,7 @@ describe('Campaign Coupon', () => {
     })
 
     it('Validates the created Campaign Coupon\'s details', () => {
-        CouponCreatedPage.validateBonusCoupon(
+        CouponCreatedPage.validateCampaignCoupon(
             couponName, // Coupon name parameter
             'this is description for campaign coupon', // Coupon description parameter
             );
