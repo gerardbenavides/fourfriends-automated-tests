@@ -27,6 +27,9 @@ class Random {
     paragraph () {
         return chance.paragraph({ sentences: 1 })
     }
+    integer6 () {
+        return chance.integer({ min: 111111, max: 999999 })
+    }
     integer10 () {
         return chance.integer({ min: 1111111111, max: 9999999999 })
     }
