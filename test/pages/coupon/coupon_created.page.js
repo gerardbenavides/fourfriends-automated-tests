@@ -255,7 +255,7 @@ class CouponCreatedPage extends Page {
         CouponMainPage.title.waitForDisplayed();
     }
 
-    validateBonusCoupon (name, desc) {
+    validateCampaignCoupon (name, desc) {
         expect(this.previewCouponName).toHaveText(name);
         expect(this.previewDescription).toHaveText(desc);
         expect(this.previewPetType).toHaveText("För hund och katt");
