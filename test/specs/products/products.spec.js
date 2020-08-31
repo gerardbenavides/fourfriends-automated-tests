@@ -9,7 +9,7 @@ let productName = ("9_" + Random.string());
 let productDesc = Random.paragraph();
 let groupName = ("7GROUP_" + Random.string());
 
-describe.only('As Admin, I can login to the web admin portal', () => {
+describe('As Admin, I can login to the web admin portal', () => {
     it('Logs in Netzon Admin with valid credentials', () => {
         LoginPage.open();
 
@@ -21,8 +21,8 @@ describe.only('As Admin, I can login to the web admin portal', () => {
 describe('As Admin, I can add a Single product', () => {
 
     it('Navigate to Products page and validate', () => {
+        HomePage.btnMenuProducts.click();
 
-        
         expect(ProductsPage.title).toHaveText("Produkter");
         ProductsPage.tabList.click();
     })
@@ -78,39 +78,34 @@ describe('As Admin, I can add a Group of products', () => {
     })
     
     it('Searches and deletes created group', () => {
-        ProductsPage.tabList.click();
-        ProductsPage.tabGroup.click();
 
         ProductsPage.createdGroupLocator(groupName).waitForDisplayed();
+        
+        ProductsPage.createdGroupLocator(groupName).scrollIntoView();
         ProductsPage.createdGroupLocator(groupName).click();
+
+        ProductsPage.isGroupExpanded();
+        ProductsPage.btnDeleteGroup.waitForDisplayed(groupName);
         ProductsPage.btnDeleteGroup.scrollIntoView();
         ProductsPage.btnDeleteGroup.click();
         ProductsPage.popupBtnDelete.click();
         
-        ProductsPage.tabList.click();
-        ProductsPage.tabGroup.click();
-
-        ProductsPage.iconSearch.click();
-        ProductsPage.inputSearch.setValue(groupName);
-
-        ProductsPage.resultNotFound.waitForDisplayed();
 
     })
 })
 
 describe('As Admin, I can Export product list', () => {
     it('Exports product list', () => {
-        HomePage.btnMenuProducts.click();
-
+        ProductsPage.tabList.click();
+        
         ProductsPage.btnExport.click();
         ProductsPage.popupBtnYes.click();
         browser.pause(2000)    
     })
 })
 
-describe.only('As Admin, I can Import excel file product list', () => {
+describe('As Admin, I can Import excel file product list', () => {
     it('Imports product list', () => {
-        HomePage.btnMenuProducts.click();
 
         ProductsPage.importFile();
         expect(ProductsPage.popupImportSuccessTitle).toHaveText("Importen lyckades");
