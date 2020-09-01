@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "wdio"
+    "test": "wdio wdio.conf.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,7 +17,8 @@
     "chance": "^1.1.6",
     "chromedriver": "^84.0.1",
     "dotenv": "^8.2.0",
-    "wdio-chromedriver-service": "^6.0.3"
+    "wdio-chromedriver-service": "^6.0.3",
+    "webdriverio": "^6.4.5"
   },
   "dependencies": {
     "wdio-timeline-reporter": "^5.1.4"
