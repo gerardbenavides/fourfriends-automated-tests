@@ -22,7 +22,7 @@ class SignupPage extends Page {
     get btnBack () { return $('//button[@class="label button-clear"]')};
 
     /** STEP 3 */
-    get inputPhoneNumber () { return $('//input[@placeholder="Fyll i telefonnummer"]')};
+    get inputPhoneNumber () { return $('//input[@placeholder="Fyll i mobilnummer"]')};
     get inputAddress () { return $('//input[@placeholder="Fyll i Adress"]')};
     get inputZipCode () { return $('//input[@placeholder="Fyll i postnr"]')};
     get inputCity () { return $('//input[@placeholder="Fyll i ort"]')};
@@ -31,11 +31,31 @@ class SignupPage extends Page {
     get checkbox () { return $('//div[@class="checkbox flex-center cboxFillPrimary"]')}
     get btnCreate () { return $('//button[@class="label button-primary"]')}
 
+    signupConsumer (email,password, fname, lname, phoneNumber, address, zipCode, city) {
+        /**Step 1 */
+        this.inputEmail.setValue(email);
+        this.inputPassword.setValue(password);
+        this.inputConfirmPassword.setValue(password);
+        this.btnNext.click(); 
 
-    inputName (first, last) {
-        this.inputFirstName.setValue(first)
-        this.inputLastName.setValue(last)
+        /**Step 2 */
+        this.inputFirstName.setValue(fname)
+        this.inputLastName.setValue(lname)
+        this.petCat.click();
+        this.btnNext.click(); 
+
+        /**Step 3 */
+        this.inputPhoneNumber.setValue(phoneNumber);
+        this.inputAddress.setValue(address);
+        this.inputZipCode.setValue(zipCode);
+        this.inputCity.setValue(city);
+        this.labelCheckbox.click();
+
+        expect(this.labelCheckbox).toHaveText(this.labelCheckboxText);
+
+        this.btnCreate.click();
     }
+
     open () {
         return super.open('auth/signup');
     }

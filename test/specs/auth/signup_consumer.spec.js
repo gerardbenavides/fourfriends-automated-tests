@@ -11,55 +11,85 @@ let address = Random.address();
 let zipCode = Random.zipCode();
 let city = Random.city();
 
-describe('Create consumer account', () => {
+describe('As a consumer, I can register an account on web portal', () => {
 
     SignupPage.open()
+
     it('Clicks Customer and Store Manager tabs', () => {
 
         SignupPage.tabStoreManager.click();
-        SignupPage.tabCustomer.click();
+        SignupPage.tabCustomer.click(); 
     })
 
-    it('Step 1: Inputs required fields', () => {
+    it('Signs up consumer', () => {
         
-        SignupPage.inputEmail.setValue(email);
-        SignupPage.inputPassword.setValue(process.env.STAGING_ADMIN_PASS);
-        SignupPage.eyePassword.click();
-        SignupPage.inputConfirmPassword.setValue(process.env.STAGING_ADMIN_PASS);
-        SignupPage.eyeConfirmPassword.click();
-        SignupPage.btnNext.click();  
+        SignupPage.signupConsumer (
+        email, // Email parameter
+        process.env.STAGING_ADMIN_PASS, // Password and Confirm Password parameter
+        firstName, // First name parameter
+        lastName, // Last name parameter
+        phoneNumber, // Phone number parameter
+        address, // Address parameter
+        zipCode, // Zip code parameter
+        city // City parameter
+        )
     })
 
-    it('Step 2: Inputs required fields', () => {
-        
-        SignupPage.inputName(firstName, lastName);
-        SignupPage.petCat.click();
-        SignupPage.petBoth.click();
-        SignupPage.petDog.click();
-        SignupPage.btnNext.click(); 
-    })
+})
 
-    it('Step 3: Inputs required fields', () => {
-        
-        SignupPage.inputPhoneNumber.setValue(phoneNumber);
-        SignupPage.inputAddress.setValue(address);
-        SignupPage.inputZipCode.setValue(zipCode);
-        SignupPage.inputCity.setValue(city);
-        SignupPage.labelCheckbox.click();
-
-        expect(SignupPage.labelCheckbox).toHaveText(SignupPage.labelCheckboxText);
-
-        SignupPage.btnCreate.click();
-    })
-
+describe('As a consumer, I can login on web portal', () => {
+    
     it('Logs in created consumer account', () => {
-
         LoginPage.login(email, process.env.STAGING_ADMIN_PASS);
 
-        /**Validates created consumer's account profile details */
-        expect(ConsumerProfilePage.profileName).toHaveText(firstName + " " + lastName);
-        expect(ConsumerProfilePage.userEmail).toHaveText(email);
-
-        HomePage.logout();
     })
+})
+
+describe('As a consumer, I can view and validate my details in Profile', () => {
+    
+    it('Validates consumer details in Profle', () => {
+        
+        ConsumerProfilePage.validateConsumerDetails(
+        firstName + " " + lastName, // Name parameter
+        email, // Email parameter
+        address, // Address parameter
+        city, // City parameter
+        zipCode, // Zip code parameter
+        phoneNumber // Phone number parameter
+        )
+    })
+
+})
+
+let firstNameEdited = (firstName + "~Edited");
+let lastNameEdited = (lastName + "~Edited");
+let phoneNumberEdited = (phoneNumber + "999");
+let addressEdited = (address + "~Edited");
+let zipCodeEdited = (zipCode + "999");
+let cityEdited = (city + "~Edited");
+
+describe('As a consumer, I can edit my details in Profile', () => {
+    
+    it('Clicks edit button', () => {
+        
+        ConsumerProfilePage.iconEditProfile.click();
+        //expect(ConsumerProfilePage.title).toHaveText("Ändra Kunder")
+    })
+    it('Edits consumer details', () => {
+        
+        ConsumerProfilePage.editConsumerDetails(
+            firstNameEdited,
+            lastNameEdited,
+            phoneNumberEdited,
+            addressEdited,
+            zipCodeEdited,
+            cityEdited
+        )
+    })
+
+    // it('Logs out consumer', () => {
+    //     HomePage.logout();
+
+    // })
+
 })
