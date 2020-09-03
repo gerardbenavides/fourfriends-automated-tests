@@ -1,5 +1,8 @@
 require('dotenv').config()
 chance = require('chance').Chance();
+Random = require('./test/helpers/random');
+path = require('path')
+global.downloadDir = path.join(__dirname, './data/downloads');
 
 exports.config = {
     //
@@ -72,7 +75,12 @@ exports.config = {
         maxInstances: 5,
         //
         browserName: 'chrome',
-        acceptInsecureCerts: true
+        'goog:chromeOptions': {
+            prefs: {
+              'download.default_directory': downloadDir //sets default download directory/folder
+            },
+        },
+        acceptInsecureCerts: true,
         // If outputDir is provided WebdriverIO can capture driver session logs
         // it is possible to configure which logTypes to include/exclude.
         // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
@@ -198,8 +206,7 @@ exports.config = {
     before: function (capabilities, specs) {
         browser.maximizeWindow();
 
-        Random = require('./test/helpers/random');
-        path = require('path')
+
     },
     /**
      * Runs before a WebdriverIO command gets executed.
