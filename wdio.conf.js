@@ -1,7 +1,9 @@
-require('dotenv').config()
+
+require('dotenv').config();
 chance = require('chance').Chance();
 Random = require('./test/helpers/random');
-path = require('path')
+path = require('path');
+moment = require('moment');
 global.downloadDir = path.join(__dirname, './data/downloads');
 
 exports.config = {
