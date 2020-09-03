@@ -3,6 +3,8 @@ const CouponMainPage = require('../coupon/coupon_main.page')
 
 class CouponCreatedPage extends Page {
     
+    get title () { return $('//div[@class="left-container flex-cross-center"]//span[@class="header-5 font-medium"][contains(text(),"Kuponger")]')}
+    
     /** VIEW COUPON BUTTONS */
     get btnDeleteCoupon () { return $('//app-button[@class="action-delete"]//button[@class="label button-clear"]')}
     get popupBtnDelete () { return $('//button[@class="label button-primary button-warning"]')}
@@ -143,8 +145,8 @@ class CouponCreatedPage extends Page {
         expect(this.summaryBreederCondition).toHaveText("0/0 poäng");
         expect(this.summaryHunterCondition).toHaveText("0/0 poäng");
 
-        this.btnProceed.click()
-        CouponMainPage.title.waitForDisplayed();
+        this.btnProceed.click();
+        this.title.waitForDisplayed();
     }
 
     validateBonusCoupon (name, prioNum, desc, consuReward, huntReward, breedReward, consuCondition) {
@@ -252,7 +254,7 @@ class CouponCreatedPage extends Page {
         expect(this.summaryPetType).toHaveText("För hund och katt");
         this.btnProceed.click()
         
-        CouponMainPage.title.waitForDisplayed();
+        this.title.waitForDisplayed();
     }
 
     validateCampaignCoupon (name, desc) {
