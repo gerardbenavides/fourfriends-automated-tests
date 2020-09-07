@@ -85,8 +85,8 @@ class ProductsPage extends Page {
 
         let filePath = path.join(__dirname, '../../../data/xlsx/product-list.xlsx');
         fileUpload.setValue(filePath)
-
     }
+    
     open () {
         return super.open('product/list');
     }

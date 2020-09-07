@@ -3,8 +3,14 @@ const Page = require('../page');
 class ConsumersPage extends Page {
     get title () { return $('//div[@class="header-container"]//div[@class="left-container flex-cross-center"]//div[@class="title"]')}
  
+<<<<<<< Updated upstream
     get tabList () { return $('//div[@class="left-container flex-cross-center"]//span[contains(text(),"List")]')}
     get tabUpgrades () { return $('//div[@class="left-container flex-cross-center"]//span[contains(text(),"Uppgraderar")]')}
+=======
+
+    get tabList () { return $('//div[@class="tab-container flex ng-star-inserted"]//span[contains(text(),"Lista")]')}
+    get tabUpgrade () { return $('//div[@class="tab-container flex ng-star-inserted"]//span[contains(text(),"Uppgraderar")]')}
+>>>>>>> Stashed changes
     get btnAddConsumer () { return $('//button[@class="label button-primary"]')}
     get btnExport () { return $('//div[@class="right-container flex-cross-center"]//div[@class="right-container flex-cross-center"]//button[@class="label button-clear"]')}
     get iconSearch () { return $('//div[@class="action-search icon-container flex-center clickable ng-star-inserted"]')}
@@ -23,6 +29,7 @@ class ConsumersPage extends Page {
     get petDog () { return $('//span[contains(text(),"Hund")]')};
     get petCat () { return $('//span[contains(text(),"Katt")]')};
     get petBoth () { return $('//span[contains(text(),"Både")]')};
+<<<<<<< Updated upstream
     get btnSave () { return $('//button[@class="label button-primary"]')}
     
     /** View consumer */
@@ -35,6 +42,19 @@ class ConsumersPage extends Page {
     get previewPhoneNumber () { return $('//div[@class="card-details ng-star-inserted"]//span[@class="caption phone-value"]')}
     get previewPetType () { return $('//div[@class="card-details ng-star-inserted"]//span[@class="caption pet-value"]')}
     get previewAccountType () { return $('//div[@class="card-details ng-star-inserted"]//span[@class="caption user-value ng-star-inserted"]')}
+=======
+    get btnSave () { return $('//button[@class="label button-primary"]//span[contains(text(),"Spara")]')}
+    
+    /** Account upgrade */
+    get firstUpgradeRequestCard () { return $('/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-consumer-list[1]/div[1]/div[2]/div[1]/div[1]/div[2]')}
+    get previewCardEmail () { return $('//div[@class="card-details ng-star-inserted"]//div[@class="email-container flex-center"]//span[@class="caption font-medium"]')}
+    get btnApproveUpgradeRequest () { return $('//div[@class="action-container"]//button[@class="label button-primary"]//span[contains(text(),"Godkänn")]')}
+    get btnDenyUpgradeRequest () { return $('//button[@class="label button-light"]//div[@class="content-wrapper flex-center"]//span[contains(text(),"Neka")]')}
+    get popupBtnConfirm () { return $('//div[@class="actions-container flex-main-end"]//button[@class="label button-primary"]')};
+    get popupBtnCancel () { return $('//div[@class="action-container ng-star-inserted"]//button[@class="label button-clear"]')};
+    
+    /** METHODS */
+>>>>>>> Stashed changes
     
     /** METHODS */
     addConsumer (fname, lname, email, address, city, zip, phoneNumber, petType) {
@@ -100,9 +120,17 @@ class ConsumersPage extends Page {
         this.btnSave.click();
         this.previewName.waitForDisplayed();
     }
+<<<<<<< Updated upstream
     
     consumerLocator (email) {
         return $('//div[@class="body-container"]//div[@class="row-container flex-cross-center"]//app-tc[@class="flex email ng-star-inserted"]//span[contains(text(),"' + email +'")]')
+=======
+
+    isGroupExpanded () {
+        let createdGroup = $('//mat-expansion-panel-header[@aria-expanded="true"]')
+        
+        createdGroup.waitForDisplayed();
+>>>>>>> Stashed changes
     }
     importFile() {
         let fileUpload = this.btnImport
@@ -117,6 +145,10 @@ class ConsumersPage extends Page {
         let filePath = path.join(__dirname, '../../../data/xlsx/product-list.xlsx');
         fileUpload.setValue(filePath)
 
+    }
+
+    upgradeAccountRequestLocator (email) {
+        return $('//div[@class="pending-container flex desktop ng-star-inserted"]//div[@class="card-list-container"]//div[@class="consumer flex-main-between flex-cross-center"]//span[contains(text(),"' +email + '")]')
     }
     open () {
         return super.open('product/list');
