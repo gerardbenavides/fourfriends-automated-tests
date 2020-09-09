@@ -5,14 +5,14 @@ class StorePage extends Page {
     get btnAddStore () { return $('//button[@class="label button-primary"]')}
     get tabActive () { return $('//div[@class="left-container flex-cross-center"]//div[@class="tab-container flex"]//span[contains(text(),"Aktiv")]')}
     get tabArchive () { return $('//div[@class="left-container flex-cross-center"]//div[@class="tab-container flex"]//span[contains(text(),"Arkiv")]')}
-    get iconSearch () { return ('//div[@class="action-search icon-container flex-center clickable ng-star-inserted"]//div[@class="icon-svg flex-center"]')}
-    get inputSearch () { return ('//input[@placeholder="Sök återförsäljare"]')}
+    get iconSearch () { return $('/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-store-list[1]/div[1]/div[1]/app-header[1]/div[1]/div[1]/div[2]/div[1]/div[1]')}
+    get inputSearch () { return $('//input[@placeholder="Sök återförsäljare"]')}
+    get resultNotFound () { return $('//div[@class="placeholder-container flex-center ng-star-inserted"]//span[@class="header-6"]')}
     
     get inputStoreName () { return $('//input[@placeholder="Skriv in återförsäljare"]')}
     get inputStoreCity () { return $('//input[@placeholder="Skriv in location"]')}
     get inputStoreNumber () { return $('//input[@placeholder="Skriv in kundnummer."]')}
     get btnSave () { return $('//button[@class="label button-primary"]//span[contains(text(),"Spara")]')}
-
 
     /** View Store */
     get btnEditStore () { return $('//div[@class="button-container edit"]//app-button')}

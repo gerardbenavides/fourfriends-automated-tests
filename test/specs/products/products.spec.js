@@ -77,7 +77,7 @@ describe('As Admin, I can add a Group of products', () => {
 
     })
     
-    it('Searches and deletes created group', () => {
+    it('Locates and deletes created group', () => {
 
         ProductsPage.createdGroupLocator(groupName).waitForDisplayed();
         
@@ -90,7 +90,13 @@ describe('As Admin, I can add a Group of products', () => {
         ProductsPage.btnDeleteGroup.click();
         ProductsPage.popupBtnDelete.click();
         
+    })
 
+    it('Validates that group is deleted', () => {
+
+        ProductsPage.iconSearch.click();
+        ProductsPage.inputSearchGroup.setValue(groupName);
+        ProductsPage.resultNotFound.isDisplayed();
     })
 })
 

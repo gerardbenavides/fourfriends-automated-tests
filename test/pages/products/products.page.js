@@ -11,7 +11,7 @@ class ProductsPage extends Page {
     get popupImportSuccessTitle () { return $('//app-dialog-confirm//div[@class="title-container flex-cross-center"]')}
     get popupImportBtnOK () { return $('//app-dialog-confirm//button//span[contains(text(),"OK")]')}
     get btnExport () { return $('//app-button[@class="action-export ng-star-inserted"]')}
-    get iconSearch () { return $('//body/app-root/div[@class="app-main-container flex"]/div[@class="outlet-container flex-expand active-navbar"]/app-product-list[@class="ng-star-inserted"]/div[@class="main-container"]/div[@class="header-container"]/app-header/div[@class="main-container"]/div[@class="main-wrapper flex-main-between"]/div[@class="right-container flex-cross-center"]/div[@class="right-container flex-cross-center"]/div[@class="action-search icon-container flex-center clickable ng-star-inserted"]/*[1]')}
+    get iconSearch () { return $('/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-product-list[1]/div[1]/div[1]/app-header[1]/div[1]/div[1]/div[2]/div[1]/div[1]')}
     get inputSearch () { return $('//input[@placeholder="Sök produkt"]')}
     get inputSearchGroup () { return $('//input[@placeholder="Sök produktgrupp"]')}
     get resultNotFound () { return $('//div[@class="placeholder-container flex-center ng-star-inserted"]//span[@class="header-6"]')}

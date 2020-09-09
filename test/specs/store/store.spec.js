@@ -38,7 +38,7 @@ describe('As Admin, I can add a Store', () => {
         StorePage.storeLocator(storeName).isDisplayed();
     })
 })
-
+ 
 describe('As Admin, I can search the added Store', () => { // BROKEN AND TRASH
     it('Searches for the added store', () => { 
         StorePage.iconSearch.click();
@@ -48,7 +48,6 @@ describe('As Admin, I can search the added Store', () => { // BROKEN AND TRASH
 
 describe('As Admin, I can view and validate the added Store\'s details', () => {
     it('Validates added store\'s details', () => {
-        StorePage.storeLocator(storeName).scrollIntoView();
         StorePage.storeLocator(storeName).click();
         expect(StorePage.title).toHaveText("Återförsäljare " + storeName)
         
@@ -76,14 +75,22 @@ describe('As Admin, I can edit a Store', () => {
 describe('As Admin, I can archive a Store', () => {
     
     it('Archives created store', () => {
+        StorePage.iconSearch.click();
+        StorePage.inputSearch.setValue(storeNameEdited);
+        StorePage.storeLocator(storeNameEdited).waitForDisplayed();
         StorePage.storeLocator(storeNameEdited).click();
 
         StorePage.btnArchiveStore.click();
         expect(StorePage.popupContentBody).toHaveText("Vill du arkivera denna butik " + storeNameEdited+"?")
         StorePage.popupBtnArchive.click();
 
-        expect(StorePage.title).toHaveText("Återförsäljare");
     })
+    it('Validates that created store is not showing in Active page', () => {
+        StorePage.iconSearch.click();
+        StorePage.inputSearch.setValue(storeNameEdited);
+        StorePage.resultNotFound.isDisplayed();
+    })
+
 })
 
 describe('As Admin, I can view the archived Store', () => {
