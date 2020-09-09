@@ -3,8 +3,8 @@ require('dotenv').config();
 chance = require('chance').Chance();
 Random = require('./test/helpers/random');
 path = require('path');
-moment = require('moment');
 global.downloadDir = path.join(__dirname, './data/downloads');
+moment = require('moment');
 
 exports.config = {
     //
@@ -28,24 +28,51 @@ exports.config = {
         './test/specs/**/*.js'
     ],
     suites: {
-        login: [
+        regression_testing: [
+            './test/specs/auth/login_users.spec.js',
+            './test/specs/coupon/coupon_bonus.spec.js',
+            './test/specs/coupon/coupon_campaign.spec.js',
+            './test/specs/store/store.spec.js',
+            './test/specs/consumers/consumers.spec.js',
+            './test/specs/consumer_web_portal/consumer_self_signup.spec.js',
+            './test/specs/consumer_web_portal/consumer_self_upgrade.spec.js',
+        ],
+
+        auth: [
             './test/specs/auth/login_users.spec.js',
         ],
-        signup: [
-            './test/specs/auth/signup_consumer.spec.js',
+        consumer_web_portal: [
+            './test/specs/consumer_web_portal/consumer_self_signup.spec.js',
+            './test/specs/consumer_web_portal/consumer_self_upgrade.spec.js',
         ],
-        coupon_bonus: [
+        coupons: [
             './test/specs/coupon/coupon_bonus.spec.js',
+            './test/specs/coupon/coupon_campaign.spec.js',
         ],
+        consumers: [
+            './test/specs/consumers/consumers.spec.js',
+        ],
+        store: [
+            './test/specs/store/store.spec.js',
+        ],
+        products: [
+            './test/specs/products/products.spec.js',
+        ],
+
         delete_created_coupons: [
             './test/specs/misc/deleteCreatedBonusCoupons.spec.js',
             './test/specs/misc/deleteCreatedCampaignCoupons.spec.js'
+        ],
+        misc: [
+            './test/specs/misc/create_bonus.spec.js',
+            './test/specs/misc/create_campaign.spec.js',
+            './test/specs/misc/add_store.spec.js',
         ]
         
     },
     // Patterns to exclude.
     exclude: [
-        //'./test/specs/misc/**.spec.js'
+        './test/specs/misc/**.spec.js'
     ],
     //
     // ============
@@ -154,7 +181,9 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter.html
-    reporters: ['spec'],
+    reporters: [
+        'spec',
+],
 
     //
     // Options to be passed to Mocha.
@@ -176,8 +205,8 @@ exports.config = {
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-    // onPrepare: function (config, capabilities) {
-    // },
+    onPrepare: function (config, capabilities) {
+    },
     /**
      * Gets executed before a worker process is spawned and can be used to initialise specific service
      * for that worker as well as modify runtime environments in an async fashion.
@@ -196,9 +225,9 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
-    beforeSession: function (config, capabilities, specs) {
+    // beforeSession: function (config, capabilities, specs) {
         
-    },
+    // },
     /**
      * Gets executed before test execution begins. At this point you can access to all global
      * variables like `browser`. It is the perfect place to define custom commands.
@@ -207,7 +236,7 @@ exports.config = {
      */
     before: function (capabilities, specs) {
         browser.maximizeWindow();
-
+        
 
     },
     /**
@@ -246,7 +275,8 @@ exports.config = {
      */
     afterTest: function(test, context, { error, result, duration, passed, retries }) {
         console.log(`Finished test "${test.parent} - ${test.title}"`)
-        browser.pause(3000)
+        browser.pause(2000)
+
     },
 
 
@@ -290,8 +320,10 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {<Object>} results object containing test results
      */
-    // onComplete: function(exitCode, config, capabilities, results) {
-    // },
+    onComplete: function(exitCode, config, capabilities, results) {
+        const mergeResults = require('wdio-mochawesome-reporter/mergeResults')
+        mergeResults('./results', "results-*")
+    },
     /**
     * Gets executed when a refresh happens.
     * @param {String} oldSessionId session ID of the old session
