@@ -73,7 +73,7 @@ class ConsumersPage extends Page {
         expect(this.previewEmail).toHaveText(email);
         expect(this.previewAddress).toHaveText(address);
         expect(this.previewCity).toHaveText(city);
-        expect(this.previewZipCode).toHaveText(zip);
+        expect(this.previewZipCode).toHaveText("" + zip + "");
         expect(this.previewPhoneNumber).toHaveText(phoneNumber);
         
         if (petType == "Dog") {
