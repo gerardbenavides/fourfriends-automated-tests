@@ -1,8 +1,6 @@
-const HomePage = require('../../pages//home/home.page');
 const SignupPage = require('../../pages/auth/signup.page');
 const LoginPage = require('../../pages/auth/login.page');
 const ConsumerProfilePage = require('../../pages/home/profile_consumer.page');
-const ConsumersPage = require('../../pages/consumers/consumers.page');
 
 let email = Random.email();
 let firstName = Random.firstName();
@@ -97,55 +95,6 @@ describe('As a consumer, I can edit my details in Profile', () => {
         zipCodeEdited, // Zip code parameter
         phoneNumberEdited // Phone number parameter
         )
-    })
-
-})
-
-
-describe('As a consumer, I can request an Dog Breeder account upgrade', () => {
-    let dogBreederName = Random.firstName();
-    let dogBreed = Random.string();
-    let quantity = 5;
-
-    it('Clicks upgrade button', () => {
-        ConsumerProfilePage.btnUpgrade.click();
-        ConsumerProfilePage.tabDogBreeder.waitForDisplayed();
-    })
-    it('Requests a Dog Breeder account upgrade', () => {
-        ConsumerProfilePage.tabDogBreeder.click();
-        ConsumerProfilePage.upgradeToDogBreeder(
-            dogBreederName, // Dog breeder parameter
-            dogBreed, // Breed parameter
-            quantity // Quantity parameter
-        )
-    })
-    it('Logs out consumer', () => {
-        HomePage.logout();
-        LoginPage.inputEmail.waitForDisplayed();
-    })
-    
-    it('Accepts the upgrade request as an Admin', () => {
-        LoginPage.login(process.env.STAGING_ADMIN_EMAIL, process.env.STAGING_ADMIN_PASS);
-        HomePage.btnMenuConsumers.click();
-        ConsumersPage.tabUpgrade.click();
-
-        ConsumersPage.upgradeAccountRequestLocator(email).click();
-        expect(ConsumersPage.previewCardEmail).toHaveText(email);
-        ConsumersPage.btnApproveUpgradeRequest.click();
-        ConsumersPage.popupBtnConfirm.click();
-        ConsumersPage.firstUpgradeRequestCard.waitForDisplayed();
-        browser.pause(3000);
-    })
-
-    it('Logs out admin', () => {
-        HomePage.logout();
-        LoginPage.inputEmail.waitForDisplayed();
-    })
-    
-    it('Validates consumer account if successfully upgraded', () => {
-        LoginPage.login(email, process.env.STAGING_ADMIN_PASS);
-        
-        expect(ConsumerProfilePage.userAccountType).toHaveText("Hunduppfödarkonto")
     })
 
 })

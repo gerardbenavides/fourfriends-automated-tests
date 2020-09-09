@@ -44,7 +44,7 @@ class ProfilePage extends Page {
         expect(this.userEmail).toHaveText(email)
         expect(this.userAddress).toHaveText(address)
         expect(this.userCity).toHaveText(city)
-        expect(this.userZipCode).toHaveText(zipCode)
+        expect(this.userZipCode).toHaveText("" + zipCode + "")
         expect(this.userPhoneNumber).toHaveText(phoneNumber)
     }
 
@@ -71,7 +71,7 @@ class ProfilePage extends Page {
         );
         fileUpload.waitForDisplayed();
 
-        let filePath = path.join(__dirname, '../../../data/images/dog.png');
+        let filePath = path.join(__dirname, '../../../data/images/both.png');
         fileUpload.setValue(filePath)
     }
 
@@ -92,9 +92,19 @@ class ProfilePage extends Page {
         this.inputQuantity.setValue(quantity);
         this.uploadCert();
         this.btnSave.click();
-        this.tabDogBreeder.waitForDisplayed();
+        this.tabCatBreeder.waitForDisplayed();
         browser.pause(1000)
     }
+
+    upgradeToHunter(race, quantity) {
+        this.inputRace.setValue(race);
+        this.inputQuantity.setValue(quantity);
+        this.uploadCert();
+        this.btnSave.click();
+        this.tabHunter.waitForDisplayed();
+        browser.pause(1000)
+    }
+
     open () {
         return super.open('account/info');
     }
