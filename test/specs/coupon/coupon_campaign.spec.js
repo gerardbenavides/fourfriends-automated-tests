@@ -6,7 +6,7 @@ const CouponPublishedPage = require('../../pages/coupon/coupon_published.page')
 
 let couponName = ("Campaign~"+Random.string());
 
-describe('Campaign Coupon', () => {
+describe('As Admin, I can create a Campaign Coupon && As Admin, I can preview the summary Campaign Coupon to be created', () => {
     
     it('Logs in Netzon Admin with valid credentials', () => {
         LoginPage.open()
@@ -24,12 +24,15 @@ describe('Campaign Coupon', () => {
             '1', // Campaign reward Max Aggregate
             );
     })
+})
 
-    it('Searches the created Campaign Coupon', () => {
+describe('As Admin, I can search the created Campaign Coupon', () => {
+        it('Searches the created Campaign Coupon', () => {
         CouponMainPage.tabCampaign.click();
         CouponMainPage.iconSearch.click();
         CouponMainPage.inputSearch.setValue(couponName);
     })
+
 
     it('Clicks and previews the created Campaign coupon', () => {        
         CouponMainPage.createdCouponLocator(couponName).isDisplayed();
@@ -44,7 +47,8 @@ describe('Campaign Coupon', () => {
             'this is description for campaign coupon', // Coupon description parameter
             );
         })
-
+})
+describe('As Admin, I can edit the created Campaign Coupon', () => {
     it('Edits the created Campaign Coupon', () => {
         CouponCreatedPage.btnEditCoupon.click();
 
@@ -55,7 +59,8 @@ describe('Campaign Coupon', () => {
             '8', // Campaign reward Max Aggregate
             );
     });
-
+})
+describe('As Admin, I can publish the created Campaign Coupon', () => {
     it('Publishes the created Campaign Coupon', () => {
 
         CouponCreatedPage.btnPublishCoupon.click();
@@ -73,7 +78,8 @@ describe('Campaign Coupon', () => {
         expect(CouponMainPage.createdCouponLocator(couponName)).toHaveText(couponName + "~Edited");
 
     })
-
+})
+describe('As Admin, I can unpublish the created Campaign Coupon', () => {
     it('Unpublishes Campaign Coupon', () => {
         CouponMainPage.createdCouponLocator(couponName).click();
 
@@ -82,7 +88,9 @@ describe('Campaign Coupon', () => {
         
         CouponMainPage.tabBonus.waitForDisplayed();
     })
+})
 
+describe('As Admin, I can delete the created Campaign Coupon', () => {
     it('Deletes the Campaign Coupon', () => {
         CouponMainPage.tabCreated.click();
 

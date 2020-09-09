@@ -6,7 +6,7 @@ const CouponPublishedPage = require('../../pages/coupon/coupon_published.page')
 
 let couponName = Random.string();
 
-describe('Bonus Coupon', () => {
+describe('As Admin, I can create a Bonus Coupon && As Admin, I can preview the summary Bonus Coupon to be created', () => {
     
     it('Logs in Netzon Admin with valid credentials', () => {
         LoginPage.open()
@@ -28,6 +28,9 @@ describe('Bonus Coupon', () => {
             );
         CouponMainPage.title.waitForDisplayed();
     })
+})
+
+describe('As Admin, I can search the created Bonus Coupon', () => {
 
     it('Searches the created Bonus Coupon', () => {
         CouponMainPage.iconSearch.click();
@@ -55,6 +58,8 @@ describe('Bonus Coupon', () => {
             );
         })
 
+})
+describe('As Admin, I can edit the created Bonus Coupon', () => {
     it('Edits the created Bonus Coupon', () => {
         CouponCreatedPage.btnEditCoupon.click();
 
@@ -68,6 +73,9 @@ describe('Bonus Coupon', () => {
             '10', // Consumer's condition to achieve
             );
     });
+})
+
+describe('As Admin, I can publish the created Bonus Coupon', () => {
     it('Publishes the created Bonus Coupon', () => {
 
         CouponCreatedPage.btnPublishCoupon.click();
@@ -85,7 +93,9 @@ describe('Bonus Coupon', () => {
         expect(CouponMainPage.createdCouponLocator(couponName)).toHaveText(couponName + "~Edited");
 
     })
+})
 
+describe('As Admin, I can unpublish the created Bonus Coupon', () => {
     it('Unpublishes Bonus Coupon', () => {
         CouponMainPage.createdCouponLocator(couponName).click();
 
@@ -94,7 +104,8 @@ describe('Bonus Coupon', () => {
         
         CouponMainPage.tabBonus.waitForDisplayed();
     })
-
+})
+describe('As Admin, I can unpublish the created Bonus Coupon', () => {
     it('Deletes the Bonus Coupon', () => {
         CouponMainPage.tabCreated.click();
 
@@ -105,7 +116,6 @@ describe('Bonus Coupon', () => {
 
         CouponMainPage.tabBonus.waitForDisplayed();
     })
-
 });
 
 
