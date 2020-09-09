@@ -16,7 +16,7 @@ class Random {
         return chance.address()
     }
     zipCode () {
-        return chance.zip()
+        return chance.integer({ min: 10000, max: 99999 })
     }
     city () {
         return chance.city()
