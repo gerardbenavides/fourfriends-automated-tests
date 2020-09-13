@@ -321,8 +321,6 @@ exports.config = {
      * @param {<Object>} results object containing test results
      */
     onComplete: function(exitCode, config, capabilities, results) {
-        const mergeResults = require('wdio-mochawesome-reporter/mergeResults')
-        mergeResults('./results', "results-*")
     },
     /**
     * Gets executed when a refresh happens.
