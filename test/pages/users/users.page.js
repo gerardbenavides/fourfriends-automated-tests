@@ -17,6 +17,7 @@ class UsersPage extends Page {
     get dropdownUserType () { return $('//div[@class="value flex-cross-center body-2 clickable"]')}
     get dropdownAdminSelector () { return $('//div[@class="dropdown-container body-2"]//span[contains(text(),"Admin")]')}
     get dropdownStoreManagerSelector () { return $('//div[@class="dropdown-container body-2"]//span[contains(text(),"Butikschef återförsäljare")]')}
+    get dropdownCashierSelector () { return $('//div[@class="dropdown-container body-2"]//span[contains(text(),"Kassapersonal")]')}
     get btnSave () { return $('//button[@class="label button-primary"]//span[contains(text(),"Spara")]')}
     get inputStoreNumber () { return $('//input[@placeholder="Kundnummer"]')}
     get btnSave () { return $('//button[@class="label button-primary"]//span[contains(text(),"Spara")]')}
@@ -44,11 +45,44 @@ class UsersPage extends Page {
         this.dropdownAdminSelector.click()
         
         this.btnSave.click();
+        browser.pause(1000)
+    }
+    inviteStoreManagerUser(firstName, lastName, email, storeNumber) {
+        this.btnInviteUser.click();
+        expect(this.title).toHaveText("Bjud in användare");
+
+        this.inputFirstName.setValue(firstName);
+        this.inputLastName.setValue(lastName)
+        this.inputEmail.setValue(email);
+        this.dropdownUserType.waitForDisplayed();
+        this.dropdownUserType.click();
+        this.dropdownStoreManagerSelector.click()
+        this.inputStoreNumber.setValue(storeNumber);
+        
+        this.btnSave.click();
+        browser.pause(1000)
+    }
+
+    inviteCashierUser(firstName, lastName, email) {
+        this.btnInviteUser.click();
+        expect(this.title).toHaveText("Bjud in användare");
+
+        this.inputFirstName.setValue(firstName);
+        this.inputLastName.setValue(lastName)
+        this.inputEmail.setValue(email);
+        this.dropdownUserType.waitForDisplayed();
+        this.dropdownUserType.click();
+        browser.pause(1000)
+
+        this.dropdownCashierSelector.click()
+
+        this.btnSave.click();
+        browser.pause(1000)
     }
     validateInvitedUser(email) {
-        let invitedUserLocator = $('//div[@class="pending-container desktop flex ng-star-inserted"]//div[@class="card-container clickable ng-star-inserted active"]//div[@class="pending-container desktop flex ng-star-inserted"]//span[@class="email body-2 font-medium"][contains(text(),"' +email+ '")]')
+        let invitedUserLocator = $('//div[@class="pending-container desktop flex ng-star-inserted"]//span[@class="email body-2 font-medium"][contains(text(),"' +email+ '")]')
         
-        invitedUserLocator.isDisplayed();
+        invitedUserLocator.waitForExist({ timeout: 5000 });
     }
     navigateToMailinator() {
         browser.url('https://www.mailinator.com/')
@@ -65,18 +99,6 @@ class UsersPage extends Page {
         let textDescription = $('//span[@class="body-1"]//b[contains(text(),"' +email+ '")]')
         
         textDescription.isDisplayed();
-    }
-    validateStore(firstName, lastName, email) {
-        expect(this.previewStoreName).toHaveText(name);
-        expect(this.previewStoreCity).toHaveText(city);
-        expect(this.previewStoreNumber).toHaveText("Kundnummer. " + number);
-    }
-
-    editStore(name, city) {
-        this.inputStoreName.setValue(name);
-        //browser.pause(1000)
-        this.inputStoreCity.setValue(city);
-        this.btnSave.click();
     }
 
     storeLocator (name) {
