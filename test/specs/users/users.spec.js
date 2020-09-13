@@ -74,7 +74,7 @@ describe('As the invited Admin, I can accept the invitation', () => {
         })
 })
 
-describe.only('As Admin, I can login to the web admin portal', () => {
+describe('As Admin, I can login to the web admin portal', () => {
     it('Logs in Netzon Admin with valid credentials', () => {
         LoginPage.open();
 
@@ -90,7 +90,7 @@ let invitedSMFirstName = Random.firstName();
 let invitedSMLastName = Random.lastName();
 let invitedSMEmail = Random.email();
 
-describe.only('As Admin, I can invite an Store Manager user and assign to a Store', () => {
+describe('As Admin, I can invite an Store Manager user and assign to a Store', () => {
 
     it('Adds a store', () => {
         HomePage.btnMenuStore.click();
@@ -127,7 +127,7 @@ describe.only('As Admin, I can invite an Store Manager user and assign to a Stor
     })
 })
 
-describe.only('As the invited SM, I can accept the invitation', () => {
+describe('As the invited SM, I can accept the invitation', () => {
 
     it('Navigates to Mailinator and validate', () => {
         UsersPage.navigateToMailinator();
@@ -162,7 +162,7 @@ let invitedCashierFirstName = Random.firstName();
 let invitedCashierLastName = Random.lastName();
 let invitedCashierEmail = Random.email();
 
-describe.only('As the invited SM, I can invite a cashier', () => {
+describe('As the invited SM, I can invite a cashier', () => {
 
     it('Navigates to Users page and validate', () => {
         HomePage.btnMenuUsers.click();
@@ -182,7 +182,7 @@ describe.only('As the invited SM, I can invite a cashier', () => {
     })
 })
 
-describe.only('As the invited Cashier, I can accept the invitation', () => {
+describe('As the invited Cashier, I can accept the invitation', () => {
 
     it('Navigates to Mailinator and validate', () => {
         UsersPage.navigateToMailinator();
@@ -211,4 +211,70 @@ describe.only('As the invited Cashier, I can accept the invitation', () => {
         HomePage.btnMenuProfile.click();
         expect(ProfilePage.userEmail).toHaveText(invitedCashierEmail);
         })
+    it('Logs out cashier', () => {
+        HomePage.logout();
+        })
+})
+
+describe('As Admin, I can login to the web admin portal', () => {
+    it('Logs in Netzon Admin with valid credentials', () => {
+        LoginPage.open();
+
+        LoginPage.login(process.env.STAGING_ADMIN_EMAIL, process.env.STAGING_ADMIN_PASS);
+        
+    })
+})
+
+describe('As Admin, I can archive the invited Admin, SM and Cashier user', () => {
+
+    it('Navigates to Users page > Active tab and validate', () => {
+        HomePage.btnMenuUsers.click();
+        UsersPage.tabActive.click();
+        expect(UsersPage.title).toHaveText("Användare");
+    })
+
+    it('Archives invited Admin user', () => {
+        UsersPage.archiveUser(invitedAdminEmail);
+    })
+
+    it('Validates Admin user is archived', () => {
+        UsersPage.validateUserIsArchived(invitedAdminEmail);
+        UsersPage.tabActive.click();
+    })
+    it('Archives invited SM user', () => {
+        UsersPage.archiveUser(invitedSMEmail);
+    })
+
+    it('Validates SM user is archived', () => {
+        UsersPage.validateUserIsArchived(invitedSMEmail);
+        UsersPage.tabActive.click();
+    })
+    it('Logs out Admin user', () => {
+        HomePage.logout();
+    })
+    it('Logs in archived SM user', () => {
+        LoginPage.login(invitedSMEmail, process.env.STAGING_ADMIN_PASS)
+    })
+
+    it('Navigates to Users page > Active tab and validate', () => {
+        HomePage.btnMenuUsers.click();
+        UsersPage.tabActive.click();
+        expect(UsersPage.title).toHaveText("Användare");
+    })
+    it('Archives invited Cashier user', () => {
+        UsersPage.archiveUser(invitedCashierEmail);
+    })
+    it('Validates Cashier user is archived', () => {
+        UsersPage.validateUserIsArchived(invitedCashierEmail);
+        UsersPage.tabActive.click();
+    })
+})
+
+describe('Logs all variables used', () => {
+
+console.log("INVITED ADMIN:" + invitedAdminEmail);
+console.log("INVITED SM:" + invitedSMEmail);
+console.log("INVITED CASHIER:" + invitedAdminEmail);
+console.log("STORE NUMBER:" + storeNumber);
+
 })
