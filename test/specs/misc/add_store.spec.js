@@ -3,7 +3,7 @@ const StorePage = require('../../pages/store/store.page');
 const HomePage = require('../../pages/home/home.page');
 
 let time = moment().format();
-let storeName = (Random.string() + " " + time);
+let storeName = (time  + " " + Random.string());
 let storeCity = Random.city();
 let storeNumber = Random.integer6();
 
