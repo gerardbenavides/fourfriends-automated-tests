@@ -1,10 +1,12 @@
 
-require('dotenv').config();
-chance = require('chance').Chance();
-Random = require('./test/helpers/random');
+let baseUrl = (process.env.USE_PREPROD === 'true')
+    ? 'https://fourfriends.netzon.se/'
+    : 'https://staging.fourfriends.netzon.se/'
+
 path = require('path');
+chance = require('chance').Chance();
 global.downloadDir = path.join(__dirname, './data/downloads');
-moment = require('moment');
+
 
 exports.config = {
     //
@@ -146,7 +148,7 @@ exports.config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: 'https://staging.fourfriends.netzon.se/',
+    baseUrl: baseUrl,
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
@@ -206,6 +208,7 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      */
     onPrepare: function (config, capabilities) {
+        require('dotenv').config();
     },
     /**
      * Gets executed before a worker process is spawned and can be used to initialise specific service
@@ -216,8 +219,9 @@ exports.config = {
      * @param  {[type]} args     object that will be merged with the main configuration once worker is initialised
      * @param  {[type]} execArgv list of string arguments passed to the worker process
      */
-    // onWorkerStart: function (cid, caps, specs, args, execArgv) {
-    // },
+    onWorkerStart: function (cid, caps, specs, args, execArgv) {
+
+    },
     /**
      * Gets executed just before initialising the webdriver session and test framework. It allows you
      * to manipulate configurations depending on the capability or spec.
@@ -225,9 +229,11 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
-    // beforeSession: function (config, capabilities, specs) {
-        
-    // },
+    beforeSession: function (config, capabilities, specs) {
+        moment = require('moment');
+        Random = require('./test/helpers/random');
+
+    },
     /**
      * Gets executed before test execution begins. At this point you can access to all global
      * variables like `browser`. It is the perfect place to define custom commands.
@@ -237,7 +243,6 @@ exports.config = {
     before: function (capabilities, specs) {
         browser.maximizeWindow();
         
-
     },
     /**
      * Runs before a WebdriverIO command gets executed.

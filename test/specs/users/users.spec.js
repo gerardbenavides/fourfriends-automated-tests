@@ -1,7 +1,6 @@
 const HomePage = require('../../pages/home/home.page');
 const LoginPage = require('../../pages/auth/login.page');
 const UsersPage = require('../../pages/users/users.page');
-const Random = require('../../helpers/random');
 const ProfilePage = require('../../pages/home/profile.page');
 const StorePage = require('../../pages/store/store.page')
 
