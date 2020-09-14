@@ -67,7 +67,7 @@ exports.config = {
             './test/specs/misc/deleteCreatedBonusCoupons.spec.js',
             './test/specs/misc/deleteCreatedCampaignCoupons.spec.js'
         ],
-        misc: [
+        prepare_manual: [
             './test/specs/misc/create_bonus.spec.js',
             './test/specs/misc/create_campaign.spec.js',
             './test/specs/misc/add_store.spec.js',
@@ -76,7 +76,7 @@ exports.config = {
     },
     // Patterns to exclude.
     exclude: [
-        './test/specs/misc/**.spec.js'
+        //'./test/specs/misc/**.spec.js'
     ],
     //
     // ============
@@ -194,7 +194,7 @@ exports.config = {
     // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
-        timeout: 60000
+        timeout: 180000
     },
     //
     // =====

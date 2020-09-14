@@ -28,4 +28,7 @@ describe('Bonus Coupon', () => {
 
         StorePage.storeLocator(storeName).isDisplayed();
     })
+    it('LOGS STORE INFO', () => {
+        console.log(storeNumber);
+    });
 })
