@@ -80,10 +80,10 @@ class ProfilePage extends Page {
         this.inputRace.setValue(race);
         this.inputQuantity.setValue(quantity);
         this.uploadCert();
-        this.btnSave.click();
+        this.btnSave.click();        
+
+        this.userEmail.waitForExist({ timeout: 10000 });
         browser.pause(1000)
-        this.tabDogBreeder.waitForDisplayed();
-        browser.pause(2000)
     }
     
     upgradeToCatBreeder(name, race, quantity) {
@@ -92,7 +92,8 @@ class ProfilePage extends Page {
         this.inputQuantity.setValue(quantity);
         this.uploadCert();
         this.btnSave.click();
-        this.tabCatBreeder.waitForDisplayed();
+        
+        this.userEmail.waitForExist({ timeout: 10000 });
         browser.pause(1000)
     }
 
@@ -101,7 +102,8 @@ class ProfilePage extends Page {
         this.inputQuantity.setValue(quantity);
         this.uploadCert();
         this.btnSave.click();
-        this.tabHunter.waitForDisplayed();
+        
+        this.userEmail.waitForExist({ timeout: 10000 });
         browser.pause(1000)
     }
 
