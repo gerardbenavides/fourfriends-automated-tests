@@ -90,9 +90,14 @@ class UsersPage extends Page {
         browser.pause(1000)
     }
     validateInvitedUser(email) {
+        this.iconSearch.click();
+        this.inputSearch.setValue(email);
+        
         let invitedUserLocator = $('//div[@class="pending-container desktop flex ng-star-inserted"]//span[@class="email body-2 font-medium"][contains(text(),"' +email+ '")]')
         
-        invitedUserLocator.waitForExist({ timeout: 5000 });
+        invitedUserLocator.waitForExist({ timeout: 10000 });
+
+        
     }
     navigateToMailinator() {
         browser.url('https://www.mailinator.com/')
