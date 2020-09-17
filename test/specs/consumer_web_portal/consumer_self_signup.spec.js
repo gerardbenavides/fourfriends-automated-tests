@@ -96,5 +96,5 @@ describe('As a consumer, I can edit my details in Profile', () => {
         phoneNumberEdited // Phone number parameter
         )
     })
-
+    console.log(email);
 })

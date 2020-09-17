@@ -1,7 +1,9 @@
+const url = require('./urls');
+const ENV = process.env.ENV;
 
-let baseUrl = (process.env.USE_PREPROD === 'true')
-    ? 'https://fourfriends.netzon.se/'
-    : 'https://staging.fourfriends.netzon.se/'
+if(!ENV || !['staging','preprod'].includes(ENV)) {
+    console.log("Invalid environment variable")
+}
 
 path = require('path');
 chance = require('chance').Chance();
