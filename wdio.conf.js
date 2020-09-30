@@ -2,7 +2,8 @@ const url = require('./urls');
 const ENV = process.env.ENV;
 
 if(!ENV || !['staging','preprod'].includes(ENV)) {
-    console.log("Invalid environment variable")
+    console.log("Invalid environment variable, set variable by including ENV=staging/preprod in CLI arg")
+    process.exit()
 }
 
 path = require('path');
@@ -107,7 +108,7 @@ exports.config = {
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
-        maxInstances: 5,
+        maxInstances: 10,
         //
         browserName: 'chrome',
         'goog:chromeOptions': {
@@ -155,7 +156,7 @@ exports.config = {
     baseUrl: url[process.env.ENV],
     //
     // Default timeout for all waitFor* commands.
-    waitforTimeout: 10000,
+    waitforTimeout: 20000,
     //
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response
@@ -236,6 +237,7 @@ exports.config = {
     beforeSession: function (config, capabilities, specs) {
         moment = require('moment');
         Random = require('./test/helpers/random');
+        today = moment().format('YYYY-MM-DD-HH[h]+mm[m]+ss[s]');
 
     },
     /**
