@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "wdio --spec login"
+    "test": "wdio --suite regression_testing"
   },
   "author": "",
   "license": "ISC",
