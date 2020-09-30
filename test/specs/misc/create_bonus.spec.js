@@ -2,8 +2,7 @@ const LoginPage = require('../../pages/auth/login.page');
 const CouponCreatedPage = require('../../pages/coupon/coupon_created.page') 
 const CouponMainPage = require('../../pages/coupon/coupon_main.page') 
 
-let time = moment().format();
-let couponName = (time + " " + Random.string());
+let couponName = (today + " " + Random.string());
 
 
 describe('Bonus Coupon', () => {
