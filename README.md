@@ -1,3 +1,3 @@
-# automation-fourfriends-webdriverio
+#H1 automation-fourfriends-webdriverio
 
-npm i to install dependencies
+Type `npm i` to install dependencies
