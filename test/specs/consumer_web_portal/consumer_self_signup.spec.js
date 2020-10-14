@@ -11,11 +11,8 @@ let zipCode = Random.zipCode();
 let city = Random.city();
 
 describe('As a consumer, I can register an account on web portal', () => {
-
-    SignupPage.open()
-
     it('Clicks Customer and Store Manager tabs', () => {
-
+        SignupPage.open()
         SignupPage.tabStoreManager.click();
         SignupPage.tabCustomer.click(); 
     })
