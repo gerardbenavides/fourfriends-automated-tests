@@ -9,7 +9,7 @@ if(!ENV || !['staging','preprod'].includes(ENV)) {
 path = require('path');
 chance = require('chance').Chance();
 global.downloadDir = path.join(__dirname, './data/downloads');
-
+Random = require('./test/helpers/random');
 
 exports.config = {
     //
@@ -79,7 +79,7 @@ exports.config = {
     },
     // Patterns to exclude.
     exclude: [
-        //'./test/specs/misc/**.spec.js'
+        './test/specs/misc/**.spec.js'
     ],
     //
     // ============
@@ -236,7 +236,6 @@ exports.config = {
      */
     beforeSession: function (config, capabilities, specs) {
         moment = require('moment');
-        Random = require('./test/helpers/random');
         today = moment().format('YYYY-MM-DD-HH[h]+mm[m]+ss[s]');
 
     },
