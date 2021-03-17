@@ -1,10 +1,4 @@
-const url = require('./urls');
-const ENV = process.env.ENV;
-
-if(!ENV || !['staging','preprod'].includes(ENV)) {
-    console.log("Invalid environment variable, set variable by including ENV=staging/preprod in CLI arg")
-    process.exit()
-}
+const {baseUrl} = require('./environments/environment-variables')
 
 path = require('path');
 chance = require('chance').Chance();
@@ -153,10 +147,10 @@ exports.config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    baseUrl: url[process.env.ENV],
+    baseUrl: baseUrl,
     //
     // Default timeout for all waitFor* commands.
-    waitforTimeout: 20000,
+    waitforTimeout: 10000,
     //
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response
@@ -197,7 +191,8 @@ exports.config = {
     // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
-        timeout: 180000
+        timeout: 180000,
+        bail: true,
     },
     //
     // =====
