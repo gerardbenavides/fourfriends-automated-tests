@@ -7,30 +7,29 @@ class LoginPage extends Page {
     get btnSubmit () { return $('button[type="submit"]') }
     get leftPanel () { return $('//div[@class="left-container flex-center"]//span')}
 
-    login (credentials, type) {
+    login (user, userType) {
         let email = ''
         let password = ''
 
-        switch(type) {
+        switch(userType) {
             case 'admin':
-                email = credentials.admin.email
-                password = credentials.admin.password
+                email = user.admin.email
+                password = user.admin.password
                 break
             case 'manager':
-                email = credentials.manager.email
-                password = credentials.manager.password
+                email = user.manager.email
+                password = user.manager.password
                 break
             case 'cashier':
-                email = credentials.cashier.email
-                password = credentials.cashier.password
+                email = user.cashier.email
+                password = user.cashier.password
                 break
             case 'consumer':
-                email = credentials.consumer.email
-                password = credentials.consumer.password
+                email = user.email
+                password = user.password
                 break
         }
 
-        console.log(email, password)
         this.inputEmail.setValue(email)
         this.inputPassword.setValue(password)
         this.btnSubmit.click()

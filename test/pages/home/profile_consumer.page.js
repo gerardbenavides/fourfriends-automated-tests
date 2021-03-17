@@ -1,4 +1,4 @@
-const Page = require('../page');
+const Page = require('../page')
 
 class ProfilePage extends Page {
     get title () { return ('//div[@class="header-container"]//div[@class="title"]//span[@class="header-5 font-medium"]')}
@@ -39,25 +39,26 @@ class ProfilePage extends Page {
 
     /** METHODS */
 
-    validateConsumerDetails (name,email,address,city,zipCode,phoneNumber) {
-        expect(this.profileName).toHaveText(name)
-        expect(this.userEmail).toHaveText(email)
-        expect(this.userAddress).toHaveText(address)
-        expect(this.userCity).toHaveText(city)
-        expect(this.userZipCode).toHaveText("" + zipCode + "")
-        expect(this.userPhoneNumber).toHaveText(phoneNumber)
+    validateConsumerDetails (user) {
+        expect(this.profileName).toHaveTextContaining(user.firstName)
+        expect(this.userEmail).toHaveText(user.email)
+        expect(this.userAddress).toHaveText(user.address)
+        expect(this.userCity).toHaveText(user.city)
+        expect(this.userZipCode).toHaveText("" + user.zipCode + "")
+        expect(this.userPhoneNumber).toHaveText(user.phoneNumber)
     }
 
-    editConsumerDetails (fname, lname, phoneNumber, address, zipCode, city) {
+    editConsumerDetails (user) {
+        this.inputFirstName.setValue(user.firstNameEdited)
+        this.inputLastName.setValue(user.lastNameEdited)
+        this.petBoth.click()
+        this.inputPhoneNumber.setValue(user.phoneNumberEdited)
+        this.inputAddress.setValue(user.addressEdited)
+        this.inputZipCode.setValue(user.zipCodeEdited)
+        this.inputCity.setValue(user.cityEdited)
+        this.btnSave.click()
 
-        this.inputFirstName.setValue(fname)
-        this.inputLastName.setValue(lname)
-        this.petBoth.click();
-        this.inputPhoneNumber.setValue(phoneNumber);
-        this.inputAddress.setValue(address);
-        this.inputZipCode.setValue(zipCode);
-        this.inputCity.setValue(city);
-        this.btnSave.click();
+        this.btnUpgrade.waitForDisplayed()
 
     }
 
@@ -68,48 +69,48 @@ class ProfilePage extends Page {
             (el) => el.style.display = 'block',
             // pass in element so we don't need to query it again in the browser
             fileUpload
-        );
-        fileUpload.waitForDisplayed();
+        )
+        fileUpload.waitForDisplayed()
 
-        let filePath = path.join(__dirname, '../../../data/images/both.png');
+        let filePath = path.join(__dirname, '../../../data/images/both.png')
         fileUpload.setValue(filePath)
     }
 
-    upgradeToDogBreeder(name, race, quantity) {
-        this.inputBreederName.setValue(name);
-        this.inputRace.setValue(race);
-        this.inputQuantity.setValue(quantity);
-        this.uploadCert();
-        this.btnSave.click();        
+    upgradeToDogBreeder(user) {
+        this.inputBreederName.setValue(user.firstName)
+        this.inputRace.setValue(user.dogBreed)
+        this.inputQuantity.setValue(user.quantity)
+        this.uploadCert()
+        this.btnSave.click()        
 
-        this.userEmail.waitForExist({ timeout: 10000 });
+        this.userEmail.waitForExist({ timeout: 10000 })
         browser.pause(1000)
     }
     
-    upgradeToCatBreeder(name, race, quantity) {
-        this.inputBreederName.setValue(name);
-        this.inputRace.setValue(race);
-        this.inputQuantity.setValue(quantity);
-        this.uploadCert();
-        this.btnSave.click();
+    upgradeToCatBreeder(user) {
+        this.inputBreederName.setValue(user.firstName)
+        this.inputRace.setValue(user.catBreed)
+        this.inputQuantity.setValue(user.quantity)
+        this.uploadCert()
+        this.btnSave.click()
         
-        this.userEmail.waitForExist({ timeout: 10000 });
+        this.userEmail.waitForExist({ timeout: 10000 })
         browser.pause(1000)
     }
 
-    upgradeToHunter(race, quantity) {
-        this.inputRace.setValue(race);
-        this.inputQuantity.setValue(quantity);
-        this.uploadCert();
-        this.btnSave.click();
+    upgradeToHunter(user) {
+        this.inputRace.setValue(user.hunter)
+        this.inputQuantity.setValue(user.quantity)
+        this.uploadCert()
+        this.btnSave.click()
         
-        this.userEmail.waitForExist({ timeout: 10000 });
+        this.userEmail.waitForExist({ timeout: 10000 })
         browser.pause(1000)
     }
 
     open () {
-        return super.open('account/info');
+        return super.open('account/info')
     }
 }
 
-module.exports = new ProfilePage();
+module.exports = new ProfilePage()
