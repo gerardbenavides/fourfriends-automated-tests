@@ -9,14 +9,12 @@ describe('As a consumer, I can register an account on web portal', () => {
     })
 
     it('Self-register as consumer', () => {
-        console.log(user)
         SignupPage.signup(user, 'consumer')
     })
 
 })
 
-describe('As a consumer, I can login on web portal', () => {
-    
+describe('As a consumer, I can login on web portal', () => { 
     it('Logs in created consumer account', () => {
         LoginPage.login(user, 'consumer')
     })
@@ -27,13 +25,11 @@ describe('As a consumer, I can view and validate my details in Profile', () => {
     it('Validates consumer details in Profile', () => {
         ConsumerProfilePage.validateConsumerDetails(user)
     })
-
 })
 
 describe('As a consumer, I can edit my details in Profile', () => {
     
     it('Clicks edit button', () => {
-        
         ConsumerProfilePage.iconEditProfile.click()
     })
 

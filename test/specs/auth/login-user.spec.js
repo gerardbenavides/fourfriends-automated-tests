@@ -4,7 +4,6 @@ const ProfilePage = require('../../pages/home/profile.page')
 const { credentials } = require('../../../environments/environment-variables')
 
 describe('Logs in all Netzon admin users ', () => {
-
     it('Should validate if user is in Login page', () => {
         LoginPage.open()
         expect(LoginPage.leftPanel).toHaveText("Välkommen!")
@@ -17,7 +16,6 @@ describe('Logs in all Netzon admin users ', () => {
 
         expect(ProfilePage.profileName).toHaveText("Netzon Administrator")
         HomePage.logout()
-
     })
 
     it('Should login Netzon SM with valid credentials', () => {

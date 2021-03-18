@@ -19,7 +19,6 @@ class HomePage extends Page {
     logout () {
         this.btnMenuLogout.click(); 
         this.btnActionOK.click(); 
-        browser.pause(3000)
     }
 
     /**
