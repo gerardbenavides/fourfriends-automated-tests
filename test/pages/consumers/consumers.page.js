@@ -1,4 +1,4 @@
-const Page = require('../page');
+const Page = require('../page')
 
 class ConsumersPage extends Page {
     get title () { return $('//div[@class="header-container"]//div[@class="left-container flex-cross-center"]//div[@class="title"]')}
@@ -20,9 +20,9 @@ class ConsumersPage extends Page {
     get inputCity () { return $('//input[@placeholder="Fyll i ort"]')}
     get inputPhoneNumber () { return $('//input[@placeholder="Fyll i mobilnummer"]')}
     get inputEditPhoneNumber () { return $('//input[@placeholder="Mobilnummer"]')}
-    get petDog () { return $('//span[contains(text(),"Hund")]')};
-    get petCat () { return $('//span[contains(text(),"Katt")]')};
-    get petBoth () { return $('//span[contains(text(),"Både")]')};
+    get petDog () { return $('//span[contains(text(),"Hund")]')}
+    get petCat () { return $('//span[contains(text(),"Katt")]')}
+    get petBoth () { return $('//span[contains(text(),"Både")]')}
     
     /** View consumer */
     get iconEditConsumer () { return $('//div[@class="card-details ng-star-inserted"]//div[@class="flex-cross-center"]//div[@class="icon-container flex-center clickable ng-star-inserted"]')}
@@ -41,73 +41,90 @@ class ConsumersPage extends Page {
     get previewCardEmail () { return $('//div[@class="card-details ng-star-inserted"]//div[@class="email-container flex-center"]//span[@class="caption font-medium"]')}
     get btnApproveUpgradeRequest () { return $('//div[@class="action-container"]//button[@class="label button-primary"]//span[contains(text(),"Godkänn")]')}
     get btnDenyUpgradeRequest () { return $('//button[@class="label button-light"]//div[@class="content-wrapper flex-center"]//span[contains(text(),"Neka")]')}
-    get popupBtnConfirm () { return $('//div[@class="actions-container flex-main-end"]//button[@class="label button-primary"]')};
-    get popupBtnCancel () { return $('//div[@class="action-container ng-star-inserted"]//button[@class="label button-clear"]')};
+    get popupBtnConfirm () { return $('//div[@class="actions-container flex-main-end"]//button[@class="label button-primary"]')}
+    get popupBtnCancel () { return $('//div[@class="action-container ng-star-inserted"]//button[@class="label button-clear"]')}
     get btnSave () { return $('//button[@class="label button-primary"]//span[contains(text(),"Spara")]')}
     
     /** METHODS */
-    addConsumer (fname, lname, email, address, city, zip, phoneNumber, petType) {
-        this.inputFirstName.setValue(fname);
-        this.inputLastName.setValue(lname);
-        this.inputEmail.setValue(email);
-        this.inputAddress.setValue(address);
-        this.inputCity.setValue(city);
-        this.inputZipcode.setValue(zip);
-        this.inputPhoneNumber.setValue(phoneNumber);
+    addConsumer (user, userType) {
+        this.inputFirstName.setValue(user.firstName)
+        this.inputLastName.setValue(user.lastName)
+        this.inputEmail.setValue(user.email)
+        this.inputAddress.setValue(user.address)
+        this.inputCity.setValue(user.city) 
+        this.inputZipcode.setValue(user.zipCode)
+        this.inputPhoneNumber.setValue(user.phoneNumber)
 
-        if (petType == "Cat") {
-            this.petCat.click();
-        } else if (petType == "Dog") {
-            this.petDog.click();
-        } else if (petType == "Both") {
-            this.petBoth.click();
-        } else {
-            this.petDog.click();
+        if(user.petType != undefined) {
+            switch(user.petType) {
+                case "Cat":
+                    this.petCat.click()
+                    break
+                case "Dog":
+                    this.petDog.click()
+                    break
+                case "Both":
+                    this.petBoth.click()
+                    break
+                default:
+                    this.petBoth.click()
+                    console.log("Pet type is invalid. Selecting Both as default")
+                    break
+            }
         }
-        //browser.pause(2000)
-        this.btnSave.click();
+        this.btnSave.click()
     }
 
-    validateConsumer (fname, lname, email, address, city, zip, phoneNumber,petType) {
-        expect(this.previewName).toHaveText(fname + " " + lname);
-        expect(this.previewEmail).toHaveText(email);
-        expect(this.previewAddress).toHaveText(address);
-        expect(this.previewCity).toHaveText(city);
-        expect(this.previewZipCode).toHaveText("" + zip + "");
-        expect(this.previewPhoneNumber).toHaveText(phoneNumber);
-        
-        if (petType == "Dog") {
-            expect(this.previewPetType).toHaveText("Hund");
-        } else if (petType == "Cat"){
-            expect(this.previewPetType).toHaveText("Katt");
-        } else if (petType == "Both"){
-            expect(this.previewPetType).toHaveText("Katt, Hund");
-        } else {
-            expect(this.previewPetType).toHaveText("Hund");
+    validateConsumer (user, isEdited) {
+        switch(isEdited) {
+            case false:
+                expect(this.previewName).toHaveText(user.firstName + " " + user.lastName)
+                expect(this.previewEmail).toHaveText(user.email)
+                expect(this.previewAddress).toHaveText(user.address)
+                expect(this.previewCity).toHaveText(user.city)
+                expect(this.previewZipCode).toHaveText("" + user.zipCode + "")
+                expect(this.previewPhoneNumber).toHaveText(user.phoneNumber)
+                expect(this.previewPetType).toHaveText("Katt")
+                break
+            case true:
+                expect(this.previewName).toHaveText(user.firstNameEdited + " " + user.lastNameEdited)
+                expect(this.previewEmail).toHaveText(user.email)
+                expect(this.previewAddress).toHaveText(user.addressEdited)
+                expect(this.previewCity).toHaveText(user.cityEdited)
+                expect(this.previewZipCode).toHaveText("" + user.zipCodeEdited + "")
+                expect(this.previewPhoneNumber).toHaveText(user.phoneNumberEdited)
+                expect(this.previewPetType).toHaveText("Katt, Hund")
+                break
         }
-
-        expect(this.previewAccountType).toHaveText("Kund");
     }
 
-    editConsumer (fname, lname, address, city, zip, phoneNumber, petType) {
+    editConsumer (user) {
         //0: "Could not convert string to integer: Fowiheh~. Path 'zipCode', line 1, position 159."
-        if (petType == "Cat") {
-            this.petCat.click();
-        } else if (petType == "Dog") {
-            this.petDog.click();
-        } else if (petType == "Both") {
-            this.petBoth.click();
-        } else {
-            this.petDog.click();
+        if(user.petTypeEdited != undefined) {
+            switch(user.petTypeEdited) {
+                case "Cat":
+                    this.petCat.click()
+                    break
+                case "Dog":
+                    this.petDog.click()
+                    break
+                case "Both":
+                    this.petBoth.click()
+                    break
+                default:
+                    this.petBoth.click()
+                    console.log("Pet type is invalid. Selecting Both as default")
+                    break
+            }
         }
-        this.inputFirstName.setValue(fname);
-        this.inputLastName.setValue(lname);
-        this.inputAddress.setValue(address);
-        this.inputCity.setValue(city);
-        this.inputZipcode.setValue(zip);
-        this.inputEditPhoneNumber.setValue(phoneNumber);
-        this.btnSave.click();
-        this.previewName.waitForDisplayed();
+        this.inputFirstName.setValue(user.firstNameEdited)
+        this.inputLastName.setValue(user.lastNameEdited)
+        this.inputAddress.setValue(user.addressEdited)
+        this.inputCity.setValue(user.cityEdited)
+        this.inputZipcode.setValue(user.zipCodeEdited)
+        this.inputEditPhoneNumber.setValue(user.phoneNumberEdited)
+        this.btnSave.click()
+        this.previewName.waitForDisplayed()
     }    
     consumerLocator (email) {
         return $('//div[@class="body-container"]//div[@class="row-container flex-cross-center"]//app-tc[@class="flex email ng-star-inserted"]//span[contains(text(),"' + email +'")]')
@@ -116,7 +133,7 @@ class ConsumersPage extends Page {
     isGroupExpanded () {
         let createdGroup = $('//mat-expansion-panel-header[@aria-expanded="true"]')
         
-        createdGroup.waitForDisplayed();
+        createdGroup.waitForDisplayed()
     }
     importFile() {
         let fileUpload = this.btnImport
@@ -125,10 +142,10 @@ class ConsumersPage extends Page {
             (el) => el.style.display = 'block',
             // pass in element so we don't need to query it again in the browser
             fileUpload
-        );
-        fileUpload.waitForDisplayed();
+        )
+        fileUpload.waitForDisplayed()
 
-        let filePath = path.join(__dirname, '../../../data/xlsx/product-list.xlsx');
+        let filePath = path.join(__dirname, '../../../data/xlsx/product-list.xlsx')
         fileUpload.setValue(filePath)
 
     }
@@ -137,8 +154,8 @@ class ConsumersPage extends Page {
         return $('//div[@class="pending-container flex desktop ng-star-inserted"]//div[@class="card-list-container"]//div[@class="consumer flex-main-between flex-cross-center"]//span[contains(text(),"' +email + '")]')
     }
     open () {
-        return super.open('product/list');
+        return super.open('product/list')
     }
 }
 
-module.exports = new ConsumersPage();
+module.exports = new ConsumersPage()
