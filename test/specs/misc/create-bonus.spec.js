@@ -1,6 +1,6 @@
 const LoginPage = require('../../pages/auth/login.page');
 const CouponCreatedPage = require('../../pages/coupon/coupon_created.page') 
-const CouponMainPage = require('../../pages/coupon/coupon_main.page') 
+const CouponMainPage = require('../../pages/coupon/coupon-main.page') 
 
 let couponName = (today + " " + Random.string());
 

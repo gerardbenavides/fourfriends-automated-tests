@@ -1,9 +1,9 @@
 const {baseUrl} = require('./environments/environment-variables')
 
-path = require('path');
-chance = require('chance').Chance();
-global.downloadDir = path.join(__dirname, './data/downloads');
-Random = require('./test/helpers/random');
+path = require('path')
+chance = require('chance').Chance()
+global.downloadDir = path.join(__dirname, './data/downloads')
+Random = require('./test/helpers/random')
 
 exports.config = {
     //
@@ -29,26 +29,26 @@ exports.config = {
     suites: {
         regression_testing: [
             './test/specs/auth/login_users.spec.js',
-            './test/specs/coupon/coupon_bonus.spec.js',
-            './test/specs/coupon/coupon_campaign.spec.js',
+            './test/specs/coupon/coupon-bonus.spec.js',
+            './test/specs/coupon/coupon-campaign.spec.js',
             './test/specs/products/products.spec.js',
             './test/specs/store/store.spec.js',
             './test/specs/users/users.spec.js',
             './test/specs/consumers/consumers.spec.js',
-            './test/specs/consumer_web_portal/consumer_self_signup.spec.js',
-            './test/specs/consumer_web_portal/consumer_self_upgrade.spec.js',
+            './test/specs/consumer-web-portal/consumer-self-signup.spec.js',
+            './test/specs/consumer-web-portal/consumer-self-upgrade.spec.js',
         ],
 
         auth: [
-            './test/specs/auth/login_users.spec.js',
+            './test/specs/auth/login-users.spec.js',
         ],
         consumer_web_portal: [
-            './test/specs/consumer_web_portal/consumer_self_signup.spec.js',
-            './test/specs/consumer_web_portal/consumer_self_upgrade.spec.js',
+            './test/specs/consumer-web-portal/consumer-self-signup.spec.js',
+            './test/specs/consumer-web-portal/consumer-self-upgrade.spec.js',
         ],
         coupons: [
-            './test/specs/coupon/coupon_bonus.spec.js',
-            './test/specs/coupon/coupon_campaign.spec.js',
+            './test/specs/coupon/coupon-bonus.spec.js',
+            './test/specs/coupon/coupon-campaign.spec.js',
         ],
         consumers: [
             './test/specs/consumers/consumers.spec.js',
@@ -61,13 +61,17 @@ exports.config = {
         ],
 
         delete_created_coupons: [
-            './test/specs/misc/deleteCreatedBonusCoupons.spec.js',
-            './test/specs/misc/deleteCreatedCampaignCoupons.spec.js'
+            './test/specs/misc/delete-created-bonus-coupons.spec.js',
+            './test/specs/misc/delete-created-campaign-coupons.spec.js'
         ],
         prepare_manual: [
-            './test/specs/misc/create_bonus.spec.js',
-            './test/specs/misc/create_campaign.spec.js',
-            './test/specs/misc/add_store.spec.js',
+            './test/specs/misc/create-bonus.spec.js',
+            './test/specs/misc/create-campaign.spec.js',
+            './test/specs/misc/add-store.spec.js',
+        ],
+        test: [
+            './test/specs/consumers/consumers.spec.js',
+            './test/specs/consumer-web-portal/consumer-self-upgrade.spec.js',
         ]
         
     },
@@ -86,7 +90,7 @@ exports.config = {
     //
     // First, you can define how many instances should be started at the same time. Let's
     // say you have 3 different capabilities (Chrome, Firefox, and Safari) and you have
-    // set maxInstances to 1; wdio will spawn 3 processes. Therefore, if you have 10 spec
+    // set maxInstances to 1 wdio will spawn 3 processes. Therefore, if you have 10 spec
     // files and you set maxInstances to 10, all spec files will get tested at the same time
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
@@ -208,7 +212,7 @@ exports.config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      */
     onPrepare: function (config, capabilities) {
-        require('dotenv').config();
+        require('dotenv').config()
     },
     /**
      * Gets executed before a worker process is spawned and can be used to initialise specific service
@@ -230,8 +234,9 @@ exports.config = {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
     beforeSession: function (config, capabilities, specs) {
-        moment = require('moment');
-        today = moment().format('YYYY-MM-DD-HH[h]+mm[m]+ss[s]');
+        moment = require('moment')
+        today = moment().format('YYYY-MM-DD-HH[h]+mm[m]+ss[s]')
+        random = require('./test/helpers/random')
 
     },
     /**
@@ -241,7 +246,7 @@ exports.config = {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      */
     before: function (capabilities, specs) {
-        browser.maximizeWindow();
+        browser.maximizeWindow()
         
     },
     /**

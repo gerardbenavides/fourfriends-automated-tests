@@ -1,82 +1,67 @@
 const LoginPage = require('../../pages/auth/login.page');
 const CouponCreatedPage = require('../../pages/coupon/coupon_created.page') 
-const CouponMainPage = require('../../pages/coupon/coupon_main.page') 
-const CouponPublishedPage = require('../../pages/coupon/coupon_published.page')
+const CouponMainPage = require('../../pages/coupon/coupon-main.page') 
+const CouponPublishedPage = require('../../pages/coupon/coupon-published.page')
 
 
-let couponName = Random.string();
+let couponName = ("Campaign~"+Random.string());
 
-describe('As Admin, I can create a Bonus Coupon && As Admin, I can preview the summary Bonus Coupon to be created', () => {
+describe('As Admin, I can create a Campaign Coupon && As Admin, I can preview the summary Campaign Coupon to be created', () => {
     
     it('Logs in Netzon Admin with valid credentials', () => {
         LoginPage.open()
         LoginPage.login(process.env.STAGING_ADMIN_EMAIL, process.env.STAGING_ADMIN_PASS);  
     });
 
-    it('Creates a Bonus Coupon', () => {
+    it('Creates a Campaign Coupon', () => {
         CouponMainPage.open();
         CouponMainPage.btnCreateCoupon.click();
         
-        CouponCreatedPage.createBonusCoupon(
+        CouponCreatedPage.createCampaignCoupon(
             couponName, // Coupon name parameter
             '1', // Coupon prio number parameter
-            'this is description', // Coupon description parameter
-            '10', // Consumer's reward percentage
-            '20', // Hunter's reward percentage
-            '15', //Breeder's reward percentage
-            '5', // Consumer's condition to achieve
+            'this is description for campaign coupon', // Coupon description parameter
+            '1', // Campaign reward Max Aggregate
             );
-        CouponMainPage.title.waitForDisplayed();
     })
 })
 
-describe('As Admin, I can search the created Bonus Coupon', () => {
-
-    it('Searches the created Bonus Coupon', () => {
+describe('As Admin, I can search the created Campaign Coupon', () => {
+        it('Searches the created Campaign Coupon', () => {
+        CouponMainPage.tabCampaign.click();
         CouponMainPage.iconSearch.click();
         CouponMainPage.inputSearch.setValue(couponName);
     })
 
-    it('Clicks and previews the created coupon', () => {
-        //let createdCouponLocator = $('//span[@class="body-1"][contains(text(),"' +couponName+ '")]');
-        
+
+    it('Clicks and previews the created Campaign coupon', () => {        
         CouponMainPage.createdCouponLocator(couponName).isDisplayed();
 
         CouponMainPage.createdCouponLocator(couponName).click();
         expect(CouponCreatedPage.previewCouponName).toHaveText(couponName)
     })
 
-    it('Validates the created Bonus Coupon\'s details', () => {
-        CouponCreatedPage.validateBonusCoupon(
+    it('Validates the created Campaign Coupon\'s details', () => {
+        CouponCreatedPage.validateCampaignCoupon(
             couponName, // Coupon name parameter
-            '1', // Coupon prio number parameter
-            'this is description', // Coupon description parameter
-            '10', // Consumer's reward percentage
-            '20', // Hunter's reward percentage
-            '15', //Breeder's reward percentage
-            '5', // Consumer's condition to achieve
+            'this is description for campaign coupon', // Coupon description parameter
             );
         })
-
 })
-describe('As Admin, I can edit the created Bonus Coupon', () => {
-    it('Edits the created Bonus Coupon', () => {
+describe('As Admin, I can edit the created Campaign Coupon', () => {
+    it('Edits the created Campaign Coupon', () => {
         CouponCreatedPage.btnEditCoupon.click();
 
-        CouponCreatedPage.editBonusCoupon(
+        CouponCreatedPage.editCampaignCoupon(
             couponName + '~Edited', // Coupon name parameter
             '10', // Coupon prio number parameter
             'This is an updated coupon description', // Coupon description parameter
-            '15', // Consumer's reward percentage
-            '25', // Hunter's reward percentage
-            '20', //Breeder's reward percentage
-            '10', // Consumer's condition to achieve
+            '8', // Campaign reward Max Aggregate
             );
     });
 })
-
-describe('As Admin, I can publish the created Bonus Coupon', () => {
-    it('Publishes the created Bonus Coupon', () => {
+describe('As Admin, I can publish the created Campaign Coupon', () => {
+    it('Publishes the created Campaign Coupon', () => {
 
         CouponCreatedPage.btnPublishCoupon.click();
         CouponCreatedPage.popupBtnPublish.waitForClickable();
@@ -85,7 +70,7 @@ describe('As Admin, I can publish the created Bonus Coupon', () => {
         CouponMainPage.tabBonus.waitForDisplayed();
     })
 
-    it('Validates if Bonus Coupon is published', () => {
+    it('Validates if Campaign is published', () => {
         
         CouponMainPage.tabPublished.click();
 
@@ -94,9 +79,8 @@ describe('As Admin, I can publish the created Bonus Coupon', () => {
 
     })
 })
-
-describe('As Admin, I can unpublish the created Bonus Coupon', () => {
-    it('Unpublishes Bonus Coupon', () => {
+describe('As Admin, I can unpublish the created Campaign Coupon', () => {
+    it('Unpublishes Campaign Coupon', () => {
         CouponMainPage.createdCouponLocator(couponName).click();
 
         CouponPublishedPage.btnUnpublishCoupon.click();
@@ -105,8 +89,9 @@ describe('As Admin, I can unpublish the created Bonus Coupon', () => {
         CouponMainPage.tabBonus.waitForDisplayed();
     })
 })
-describe('As Admin, I can unpublish the created Bonus Coupon', () => {
-    it('Deletes the Bonus Coupon', () => {
+
+describe('As Admin, I can delete the created Campaign Coupon', () => {
+    it('Deletes the Campaign Coupon', () => {
         CouponMainPage.tabCreated.click();
 
         CouponMainPage.createdCouponLocator(couponName).click();
@@ -116,6 +101,7 @@ describe('As Admin, I can unpublish the created Bonus Coupon', () => {
 
         CouponMainPage.tabBonus.waitForDisplayed();
     })
+
 });
 
 

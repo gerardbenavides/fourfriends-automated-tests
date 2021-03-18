@@ -1,5 +1,5 @@
 const Page = require('../page');
-const CouponMainPage = require('../coupon/coupon_main.page')
+const CouponMainPage = require('./coupon-main.page')
 
 class CouponCreatedPage extends Page {
     
