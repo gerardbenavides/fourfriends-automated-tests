@@ -100,31 +100,40 @@ class CouponCreatedPage extends Page {
 
     }
 
-    createBonusCoupon (name, prioNum, desc, consuReward, huntReward, breedReward, consuCondition) {
-        /** STEP 1 */
+    createCoupon (coupon, couponType) {
         
-        this.inputName.setValue(name)
-        this.inputPrioNumber.setValue(prioNum)
+        /** STEP 1 */
+        this.inputName.setValue(coupon.name)
+        this.inputPrioNumber.setValue(coupon.priority)
         this.typeBonus.click();
-        this.petBoth.click();
-        this.inputDescription.setValue(desc);
+        switch(coupon.petType) {
+            case "Dog":
+                this.petDog.click()
+                break
+            case "Cat":
+                this.petCat.click()
+                break
+            case "Both":
+                this.petBoth.click()
+                break
+        }
+        
+        this.inputDescription.setValue(coupon.description);
         this.uploadDefaultImg();
-        //browser.pause(3000)
         this.btnProceed.click();
 
         /** STEP 2 */
-        this.inputConsumerReward.setValue(consuReward);
-        this.inputHunterReward.setValue(huntReward);
-        this.inputBreederReward.setValue(breedReward);
+        this.inputConsumerReward.setValue(coupon.consumerReward);
+        this.inputBreederReward.setValue(coupon.breederReward);
+        this.inputHunterReward.setValue(coupon.hunterReward);
         this.groupProduct.click();
         this.dropdownProduct.waitForClickable();
         this.dropdownProduct.click();
         this.addFirstDropdownItem.click();
-        //browser.pause(3000)
         this.btnProceed.click();
 
         /** STEP 3 */
-        this.inputConsumerCondition.setValue(consuCondition);
+        this.inputConsumerCondition.setValue(coupon.consumerCondition);
         this.groupProduct.click();
         this.dropdownProduct.waitForClickable();
         this.dropdownProduct.click();
@@ -135,13 +144,13 @@ class CouponCreatedPage extends Page {
         /** SUMMARY */
         this.summaryTitle.waitForDisplayed()
         expect(this.summaryTitle).toHaveText("Förhandsvisa kupong");
-        expect(this.summaryCouponName).toHaveText(name);
-        expect(this.summaryDescription).toHaveText(desc);
+        expect(this.summaryCouponName).toHaveText(coupon.name);
+        expect(this.summaryDescription).toHaveText(coupon.description);
         expect(this.summaryPetType).toHaveText("För hund och katt");
-        expect(this.summaryConsumerReward).toHaveText(consuReward + "% rabatt");
-        expect(this.summaryBreederReward).toHaveText(breedReward + "% rabatt");
-        expect(this.summaryHunterReward).toHaveText(huntReward + "% rabatt");
-        expect(this.summaryConsumerCondition).toHaveText(consuCondition + "/" + consuCondition + " poäng");
+        expect(this.summaryConsumerReward).toHaveText(coupon.consumerReward + "% rabatt");
+        expect(this.summaryBreederReward).toHaveText(coupon.breederReward + "% rabatt");
+        expect(this.summaryHunterReward).toHaveText(coupon.hunterReward + "% rabatt");
+        expect(this.summaryConsumerCondition).toHaveText(coupon.consumerCondition + "/" + coupon.consumerCondition + " poäng");
         expect(this.summaryBreederCondition).toHaveText("0/0 poäng");
         expect(this.summaryHunterCondition).toHaveText("0/0 poäng");
 
@@ -149,51 +158,93 @@ class CouponCreatedPage extends Page {
         this.title.waitForDisplayed();
     }
 
-    validateBonusCoupon (name, prioNum, desc, consuReward, huntReward, breedReward, consuCondition) {
-        expect(this.previewCouponName).toHaveText(name);
-        expect(this.previewDescription).toHaveText(desc);
-        expect(this.previewPetType).toHaveText("För hund och katt");
-        expect(this.previewConsumerReward).toHaveText(consuReward + "% rabatt");
-        expect(this.previewBreederReward).toHaveText(breedReward + "% rabatt");
-        expect(this.previewHunterReward).toHaveText(huntReward + "% rabatt");
-        expect(this.previewConsumerCondition).toHaveText(consuCondition + "/" + consuCondition + " poäng");
-        expect(this.previewBreederCondition).toHaveText("0/0 poäng");
-        expect(this.previewHunterCondition).toHaveText("0/0 poäng");
+    validateBonusCoupon (coupon, couponType, isEdited) {
+        switch(isEdited) {
+            case false:
+                expect(this.previewCouponName).toHaveText(coupon.name)
+                expect(this.previewDescription).toHaveText(coupon.description)
+                switch(coupon.petType) {
+                    case "Dog":
+                        expect(this.previewPetType).toHaveText("För hund")
+                        break
+                    case "Cat":
+                        expect(this.previewPetType).toHaveText("För katt")
+                        break
+                    case "Both":
+                        expect(this.previewPetType).toHaveText("För hund och katt")
+                        break
+                }
+                expect(this.previewConsumerReward).toHaveText(coupon.consumerReward + "% rabatt")
+                expect(this.previewBreederReward).toHaveText(coupon.breederReward + "% rabatt")
+                expect(this.previewHunterReward).toHaveText(coupon.hunterReward + "% rabatt")
+                expect(this.previewConsumerCondition).toHaveText(coupon.consumerCondition + "/" + coupon.consumerCondition + " poäng")
+                expect(this.previewBreederCondition).toHaveText("0/0 poäng")
+                expect(this.previewHunterCondition).toHaveText("0/0 poäng")
+                break
+            case true:
+                expect(this.previewCouponName).toHaveText(coupon.nameEdited)
+                expect(this.previewDescription).toHaveText(coupon.descriptionEdited)
+                switch(coupon.petTypeEdited) {
+                    case "Dog":
+                        expect(this.previewPetType).toHaveText("För hund")
+                        break
+                    case "Cat":
+                        expect(this.previewPetType).toHaveText("För katt")
+                        break
+                    case "Both":
+                        expect(this.previewPetType).toHaveText("För hund och katt")
+                        break
+                }
+                expect(this.previewConsumerReward).toHaveText(coupon.consumerRewardEdited + "% rabatt")
+                expect(this.previewBreederReward).toHaveText(coupon.breederRewardEdited + "% rabatt")
+                expect(this.previewHunterReward).toHaveText(coupon.hunterRewardEdited + "% rabatt")
+                expect(this.previewConsumerCondition).toHaveText(coupon.consumerConditionEdited + "/" + coupon.consumerConditionEdited + " poäng")
+                expect(this.previewBreederCondition).toHaveText("0/0 poäng")
+                expect(this.previewHunterCondition).toHaveText("0/0 poäng")
+                break
+        }
     }
 
-    editBonusCoupon (name, prioNum, desc, consuReward, huntReward, breedReward, consuCondition) {
+    editBonusCoupon (coupon, couponType) {
         
         /** STEP 1 */
-        this.inputName.setValue(name)
-        this.inputPrioNumber.setValue(prioNum)
-        this.petDog.click(); // Edits from Both into Dog
-        this.inputDescription.setValue(desc);
+        this.inputName.setValue(coupon.nameEdited)
+        this.inputPrioNumber.setValue(coupon.priorityEdited)
+        switch(coupon.petTypeEdited) {
+            case "Dog":
+                this.petDog.click()
+                break
+            case "Cat":
+                this.petCat.click()
+                break
+            case "Both":
+                this.petBoth.click()
+                break
+        }
+        this.inputDescription.setValue(coupon.descriptionEdited);
         this.uploadNewImg(); // Edits coupon image
-        //browser.pause(3000)
         this.btnProceed.click();
 
         /** STEP 2 */
-        this.inputConsumerReward.setValue(consuReward);
-        this.inputHunterReward.setValue(huntReward);
-        this.inputBreederReward.setValue(breedReward);
-        //browser.pause(3000)
+        this.inputConsumerReward.setValue(coupon.consumerRewardEdited);
+        this.inputHunterReward.setValue(coupon.hunterRewardEdited);
+        this.inputBreederReward.setValue(coupon.breederRewardEdited);
         this.btnProceed.click();
 
         /** STEP 3 */
-        this.inputConsumerCondition.setValue(consuCondition);
-        //browser.pause(3000)
+        this.inputConsumerCondition.setValue(coupon.consumerConditionEdited);
         this.btnProceed.click();
 
         /** SUMMARY */
         this.summaryTitle.waitForDisplayed()
         expect(this.summaryTitle).toHaveText("Förhandsvisa kupong");
-        expect(this.summaryCouponName).toHaveText(name);
-        expect(this.summaryDescription).toHaveText(desc);
+        expect(this.summaryCouponName).toHaveText(coupon.nameEdited);
+        expect(this.summaryDescription).toHaveText(coupon.descriptionEdited);
         expect(this.summaryPetType).toHaveText("För hund");
-        expect(this.summaryConsumerReward).toHaveText(consuReward + "% rabatt");
-        expect(this.summaryBreederReward).toHaveText(breedReward + "% rabatt");
-        expect(this.summaryHunterReward).toHaveText(huntReward + "% rabatt");
-        expect(this.summaryConsumerCondition).toHaveText(consuCondition + "/" + consuCondition + " poäng");
+        expect(this.summaryConsumerReward).toHaveText(coupon.consumerRewardEdited + "% rabatt");
+        expect(this.summaryBreederReward).toHaveText(coupon.breederRewardEdited + "% rabatt");
+        expect(this.summaryHunterReward).toHaveText(coupon.hunterRewardEdited + "% rabatt");
+        expect(this.summaryConsumerCondition).toHaveText(coupon.consumerConditionEdited + "/" + coupon.consumerConditionEdited + " poäng");
         expect(this.summaryBreederCondition).toHaveText("0/0 poäng");
         expect(this.summaryHunterCondition).toHaveText("0/0 poäng");
 
