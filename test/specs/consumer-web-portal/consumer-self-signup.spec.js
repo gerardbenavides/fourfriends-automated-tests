@@ -1,40 +1,45 @@
 const SignupPage = require('../../pages/auth/signup.page')
 const LoginPage = require('../../pages/auth/login.page')
-const ConsumerProfilePage = require('../../pages/home/profile_consumer.page')
+const ConsumerProfilePage = require('../../pages/home/profile-consumer.page')
+
 const user = require('../../../data/consumer-info')
 
 describe('As a consumer, I can register an account on web portal', () => {
-    it('Clicks Customer and Store Manager tabs', () => {
+    it('Should click Customer and Store Manager tabs', () => {
         SignupPage.open()
     })
 
-    it('Self-register as consumer', () => {
+    it('Should self-register as consumer', () => {
         SignupPage.signup(user, 'consumer')
     })
 
 })
 
 describe('As a consumer, I can login on web portal', () => { 
-    it('Logs in created consumer account', () => {
+    it('Should login created consumer account', () => {
         LoginPage.login(user, 'consumer')
     })
 })
 
 describe('As a consumer, I can view and validate my details in Profile', () => {
     
-    it('Validates consumer details in Profile', () => {
-        ConsumerProfilePage.validateConsumerDetails(user)
+    it('Should validate consumer details in Profile', () => {
+        ConsumerProfilePage.validateConsumerDetails(user, false)
     })
 })
 
 describe('As a consumer, I can edit my details in Profile', () => {
     
-    it('Clicks edit button', () => {
+    it('Should click edit button', () => {
         ConsumerProfilePage.iconEditProfile.click()
     })
 
-    it('Edits consumer details', () => {
+    it('Should edit consumer details', () => {
         
         ConsumerProfilePage.editConsumerDetails(user)
+    })
+    it('Should validate consumer details', () => {
+        
+        ConsumerProfilePage.validateConsumerDetails(user, true)
     })
 })

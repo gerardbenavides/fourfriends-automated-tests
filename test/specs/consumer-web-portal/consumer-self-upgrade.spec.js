@@ -3,12 +3,12 @@ const SignupPage = require('../../pages/auth/signup.page')
 const LoginPage = require('../../pages/auth/login.page')
 const ConsumerProfilePage = require('../../pages/home/profile-consumer.page')
 const ConsumersPage = require('../../pages/consumers/consumers.page')
+
 const user = require('../../../data/consumer-info')
 const { credentials } = require('../../../environments/environment-variables')
 
 describe('As a consumer, I can register an account on web portal', () => {
     it('Should click Customer and Store Manager tabs', () => {
-        console.log(user)
         SignupPage.open()
     })
 

@@ -110,6 +110,9 @@ exports.config = {
         //
         browserName: 'chrome',
         'goog:chromeOptions': {
+            args: [
+                //'headless',
+            ],
             prefs: {
               'download.default_directory': downloadDir //sets default download directory/folder
             },
@@ -278,8 +281,8 @@ exports.config = {
      * Hook that gets executed _after_ a hook within the suite starts (e.g. runs after calling
      * afterEach in Mocha)
      */
-    // afterHook: function (test, context, { error, result, duration, passed, retries }) {
-    // },
+    afterHook: function (test, context, { error, result, duration, passed, retries }) {
+    },
     /**
      * Function to be executed after a test (in Mocha/Jasmine).
      */
