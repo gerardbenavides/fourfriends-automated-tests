@@ -18,7 +18,7 @@ class CouponMainPage extends Page {
     /** METHODS */
     
     createdCouponLocator (name) {
-        return $('//span[@class="body-1"][contains(text(),"' +name+ '")]');
+        return $('//app-coupon-card//span[.="' +name+ '"]');
     }
 
     open () {
