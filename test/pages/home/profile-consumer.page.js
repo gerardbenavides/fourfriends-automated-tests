@@ -39,13 +39,26 @@ class ProfilePage extends Page {
 
     /** METHODS */
 
-    validateConsumerDetails (user) {
-        expect(this.profileName).toHaveTextContaining(user.firstName)
-        expect(this.userEmail).toHaveText(user.email)
-        expect(this.userAddress).toHaveText(user.address)
-        expect(this.userCity).toHaveText(user.city)
-        expect(this.userZipCode).toHaveText("" + user.zipCode + "")
-        expect(this.userPhoneNumber).toHaveText(user.phoneNumber)
+    validateConsumerDetails (user, isEdited) {
+        switch (isEdited) {
+            case false:
+                expect(this.profileName).toHaveTextContaining(user.firstName)
+                expect(this.userEmail).toHaveText(user.email)
+                expect(this.userAddress).toHaveText(user.address)
+                expect(this.userCity).toHaveText(user.city)
+                expect(this.userZipCode).toHaveText("" + user.zipCode + "")
+                expect(this.userPhoneNumber).toHaveText(user.phoneNumber) 
+                break
+            case true:
+                expect(this.profileName).toHaveTextContaining(user.firstNameEdited)
+                expect(this.userEmail).toHaveText(user.email)
+                expect(this.userAddress).toHaveText(user.addressEdited)
+                expect(this.userCity).toHaveText(user.cityEdited)
+                expect(this.userZipCode).toHaveText("" + user.zipCodeEdited + "")
+                expect(this.userPhoneNumber).toHaveText(user.phoneNumberEdited) 
+                break
+        }
+        
     }
 
     editConsumerDetails (user) {
