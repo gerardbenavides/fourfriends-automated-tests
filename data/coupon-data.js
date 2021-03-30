@@ -33,4 +33,7 @@ module.exports = {
     },
 
     petTypeEdited: "Dog",
+
+    /** Campaign */
+    maxAggregate: 20
 }
