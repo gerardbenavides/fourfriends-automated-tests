@@ -1,4 +1,4 @@
-const Page = require('../page');
+const Page = require('../page')
 const CouponMainPage = require('./coupon-main.page')
 
 class CouponCreatedPage extends Page {
@@ -19,11 +19,11 @@ class CouponCreatedPage extends Page {
     get inputName () { return $('//input[@placeholder="Skriv in kupongnamn"]')}
     get calendar () { return $('//div[@class="date-container flex-cross-center clickable"]')}
     get inputPrioNumber () { return $('//input[@placeholder="Prio nummer"]')}
-    get typeBonus () { return $('//div[@class="field-main-wrapper flex-expand"]//div[1]//div[2]//div[1]//app-segment[1]//div[1]//div[1]')}
-    get typeCampaign () { return $('//div[@class="field-main-wrapper flex-expand"]//div[1]//div[2]//div[1]//app-segment[1]//div[1]//div[2]')}
-    get petDog () { return $('//span[contains(text(),"Hund")]')};
-    get petCat () { return $('//span[contains(text(),"Katt")]')};
-    get petBoth () { return $('//span[contains(text(),"Både")]')};
+    get typeBonus () { return $('//app-segment//div//span[.="Bonus"]')}
+    get typeCampaign () { return $('//app-segment//div//span[.="Kampanj"]')}
+    get petDog () { return $('//span[contains(text(),"Hund")]')}
+    get petCat () { return $('//span[contains(text(),"Katt")]')}
+    get petBoth () { return $('//span[contains(text(),"Både")]')}
     get iconDatePicker () { return $('//span[@class="icon-container flex-center clickable"]')}
     get currentDate () { return $('//mat-calendar//div[@class="mat-calendar-body-cell-content mat-calendar-body-today"]')}
     get inputDescription () { return $('//textarea[@placeholder="Skriv in kupongbeskrivning"]')}
@@ -31,9 +31,9 @@ class CouponCreatedPage extends Page {
     get btnProceed () { return $('//button[@class="label button-primary"]')}
 
     /** STEP 2 */
-    get inputConsumerReward () { return $('//input[@formcontrolname="consumerReward"]')};
-    get inputHunterReward () { return $('//input[@formcontrolname="hunter"]')};
-    get inputBreederReward () { return $('//input[@formcontrolname="breeder"]')};
+    get inputConsumerReward () { return $('//input[@formcontrolname="consumerReward"]')}
+    get inputHunterReward () { return $('//input[@formcontrolname="hunter"]')}
+    get inputBreederReward () { return $('//input[@formcontrolname="breeder"]')}
     get singleProduct () { return $('/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-coupon-create[1]/div[1]/div[2]/div[1]/div[1]/div[2]/form[1]/div[2]/div[1]/div[1]/div[1]/div[2]/div[1]')}
     get groupProduct () { return $('//span[contains(text(),"Grupp")]')}
     get dropdownProduct () { return $('//div[@class="main-wrapper flex-cross-center"]')}
@@ -78,10 +78,10 @@ class CouponCreatedPage extends Page {
             (el) => el.style.display = 'block',
             // pass in element so we don't need to query it again in the browser
             fileUpload
-        );
-        fileUpload.waitForDisplayed();
+        )
+        fileUpload.waitForDisplayed()
 
-        let filePath = path.join(__dirname, '../../../data/images/both.png');
+        let filePath = path.join(__dirname, '../../../data/images/both.png')
         fileUpload.setValue(filePath)
 
     }
@@ -92,10 +92,10 @@ class CouponCreatedPage extends Page {
             (el) => el.style.display = 'block',
             // pass in element so we don't need to query it again in the browser
             fileUpload
-        );
-        fileUpload.waitForDisplayed();
+        )
+        fileUpload.waitForDisplayed()
 
-        let filePath = path.join(__dirname, '../../../data/images/dog.png');
+        let filePath = path.join(__dirname, '../../../data/images/dog.png')
         fileUpload.setValue(filePath)
 
     }
@@ -105,7 +105,7 @@ class CouponCreatedPage extends Page {
         /** STEP 1 */
         this.inputName.setValue(coupon.name)
         this.inputPrioNumber.setValue(coupon.priority)
-        this.typeBonus.click();
+        this.typeBonus.click()
         switch(coupon.petType) {
             case "Dog":
                 this.petDog.click()
@@ -117,45 +117,87 @@ class CouponCreatedPage extends Page {
                 this.petBoth.click()
                 break
         }
+        this.inputDescription.setValue(coupon.description)
+        this.uploadDefaultImg()
+        if (couponType == 'campaign') {
+            this.typeCampaign.click()
+            this.iconDatePicker.click()
+            this.currentDate.click()
+        }
+        this.btnProceed.click()
+        switch (couponType) {
+            case 'bonus':
+                /** STEP 2 */
+                this.inputConsumerReward.setValue(coupon.consumerReward)
+                this.inputBreederReward.setValue(coupon.breederReward)
+                this.inputHunterReward.setValue(coupon.hunterReward)
+                this.groupProduct.click()
+                this.dropdownProduct.waitForClickable()
+                this.dropdownProduct.click()
+                this.addFirstDropdownItem.click()
+                this.btnProceed.click()
+
+                /** STEP 3 */
+                this.inputConsumerCondition.setValue(coupon.consumerCondition)
+                this.groupProduct.click()
+                this.dropdownProduct.waitForClickable()
+                this.dropdownProduct.click()
+                this.addFirstDropdownItem.click()
+                this.btnProceed.click()
+
+                /** SUMMARY */
+                this.summaryTitle.waitForDisplayed()
+                expect(this.summaryTitle).toHaveText("Förhandsvisa kupong")
+                expect(this.summaryCouponName).toHaveText(coupon.name)
+                expect(this.summaryDescription).toHaveText(coupon.description)
+                expect(this.summaryPetType).toHaveText("För hund och katt")
+                expect(this.summaryConsumerReward).toHaveText(coupon.consumerReward + "% rabatt")
+                expect(this.summaryBreederReward).toHaveText(coupon.breederReward + "% rabatt")
+                expect(this.summaryHunterReward).toHaveText(coupon.hunterReward + "% rabatt")
+                expect(this.summaryConsumerCondition).toHaveText(coupon.consumerCondition + "/" + coupon.consumerCondition + " poäng")
+                expect(this.summaryBreederCondition).toHaveText("0/0 poäng")
+                expect(this.summaryHunterCondition).toHaveText("0/0 poäng")
+
+                this.btnProceed.click()
+                this.title.waitForDisplayed()
+                break
+            case 'campaign':
+                this.groupProduct.click()
+                this.dropdownProduct.waitForClickable()
+                this.dropdownProduct.click()
+                this.addFirstDropdownItem.click()
+                this.inputMaxAggregate.setValue(coupon.maxAggregate)
         
-        this.inputDescription.setValue(coupon.description);
-        this.uploadDefaultImg();
-        this.btnProceed.click();
+                let itemCount = $$('//input[@placeholder="Erbjudande"]').length
+                let discountValue = 10
+                let discountFieldCount = 1
 
-        /** STEP 2 */
-        this.inputConsumerReward.setValue(coupon.consumerReward);
-        this.inputBreederReward.setValue(coupon.breederReward);
-        this.inputHunterReward.setValue(coupon.hunterReward);
-        this.groupProduct.click();
-        this.dropdownProduct.waitForClickable();
-        this.dropdownProduct.click();
-        this.addFirstDropdownItem.click();
-        this.btnProceed.click();
+                for (let i = 0; i < itemCount; i++) {
+                    let inputDiscountField = $('/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-coupon-create[1]/div[1]/div[2]/div[1]/div[1]/div[2]/form[1]/div[2]/div['+ discountFieldCount +']/div[1]/app-reward-type[1]/div[1]/input[1]')
+                    
+                    inputDiscountField.setValue(discountValue)
+                    discountValue = discountValue + 5
+                    discountFieldCount = 1+1 // Adds 1 so next iteration will be changed using the next input discount field element
+                    }
+                this.btnProceed.click()
 
-        /** STEP 3 */
-        this.inputConsumerCondition.setValue(coupon.consumerCondition);
-        this.groupProduct.click();
-        this.dropdownProduct.waitForClickable();
-        this.dropdownProduct.click();
-        this.addFirstDropdownItem.click();
-        //browser.pause(3000)
-        this.btnProceed.click();
+                /** STEP 3 */
+                this.groupProduct.click()
+                this.dropdownProduct.waitForClickable()
+                this.dropdownProduct.click()
+                this.addFirstDropdownItem.click()
+                this.btnProceed.click()
 
-        /** SUMMARY */
-        this.summaryTitle.waitForDisplayed()
-        expect(this.summaryTitle).toHaveText("Förhandsvisa kupong");
-        expect(this.summaryCouponName).toHaveText(coupon.name);
-        expect(this.summaryDescription).toHaveText(coupon.description);
-        expect(this.summaryPetType).toHaveText("För hund och katt");
-        expect(this.summaryConsumerReward).toHaveText(coupon.consumerReward + "% rabatt");
-        expect(this.summaryBreederReward).toHaveText(coupon.breederReward + "% rabatt");
-        expect(this.summaryHunterReward).toHaveText(coupon.hunterReward + "% rabatt");
-        expect(this.summaryConsumerCondition).toHaveText(coupon.consumerCondition + "/" + coupon.consumerCondition + " poäng");
-        expect(this.summaryBreederCondition).toHaveText("0/0 poäng");
-        expect(this.summaryHunterCondition).toHaveText("0/0 poäng");
-
-        this.btnProceed.click();
-        this.title.waitForDisplayed();
+                /** SUMMARY */
+                this.summaryTitle.waitForDisplayed()
+                expect(this.summaryTitle).toHaveText("Förhandsvisa kupong")
+                expect(this.summaryCouponName).toHaveText(coupon.name)
+                expect(this.summaryDescription).toHaveText(coupon.description)
+                expect(this.summaryPetType).toHaveText("För hund och katt")
+                this.btnProceed.click()
+                
+                this.title.waitForDisplayed()
+        }
     }
 
     validateBonusCoupon (coupon, couponType, isEdited) {
@@ -221,35 +263,35 @@ class CouponCreatedPage extends Page {
                 this.petBoth.click()
                 break
         }
-        this.inputDescription.setValue(coupon.descriptionEdited);
-        this.uploadNewImg(); // Edits coupon image
-        this.btnProceed.click();
+        this.inputDescription.setValue(coupon.descriptionEdited)
+        this.uploadNewImg() // Edits coupon image
+        this.btnProceed.click()
 
         /** STEP 2 */
-        this.inputConsumerReward.setValue(coupon.consumerRewardEdited);
-        this.inputHunterReward.setValue(coupon.hunterRewardEdited);
-        this.inputBreederReward.setValue(coupon.breederRewardEdited);
-        this.btnProceed.click();
+        this.inputConsumerReward.setValue(coupon.consumerRewardEdited)
+        this.inputHunterReward.setValue(coupon.hunterRewardEdited)
+        this.inputBreederReward.setValue(coupon.breederRewardEdited)
+        this.btnProceed.click()
 
         /** STEP 3 */
-        this.inputConsumerCondition.setValue(coupon.consumerConditionEdited);
-        this.btnProceed.click();
+        this.inputConsumerCondition.setValue(coupon.consumerConditionEdited)
+        this.btnProceed.click()
 
         /** SUMMARY */
         this.summaryTitle.waitForDisplayed()
-        expect(this.summaryTitle).toHaveText("Förhandsvisa kupong");
-        expect(this.summaryCouponName).toHaveText(coupon.nameEdited);
-        expect(this.summaryDescription).toHaveText(coupon.descriptionEdited);
-        expect(this.summaryPetType).toHaveText("För hund");
-        expect(this.summaryConsumerReward).toHaveText(coupon.consumerRewardEdited + "% rabatt");
-        expect(this.summaryBreederReward).toHaveText(coupon.breederRewardEdited + "% rabatt");
-        expect(this.summaryHunterReward).toHaveText(coupon.hunterRewardEdited + "% rabatt");
-        expect(this.summaryConsumerCondition).toHaveText(coupon.consumerConditionEdited + "/" + coupon.consumerConditionEdited + " poäng");
-        expect(this.summaryBreederCondition).toHaveText("0/0 poäng");
-        expect(this.summaryHunterCondition).toHaveText("0/0 poäng");
+        expect(this.summaryTitle).toHaveText("Förhandsvisa kupong")
+        expect(this.summaryCouponName).toHaveText(coupon.nameEdited)
+        expect(this.summaryDescription).toHaveText(coupon.descriptionEdited)
+        expect(this.summaryPetType).toHaveText("För hund")
+        expect(this.summaryConsumerReward).toHaveText(coupon.consumerRewardEdited + "% rabatt")
+        expect(this.summaryBreederReward).toHaveText(coupon.breederRewardEdited + "% rabatt")
+        expect(this.summaryHunterReward).toHaveText(coupon.hunterRewardEdited + "% rabatt")
+        expect(this.summaryConsumerCondition).toHaveText(coupon.consumerConditionEdited + "/" + coupon.consumerConditionEdited + " poäng")
+        expect(this.summaryBreederCondition).toHaveText("0/0 poäng")
+        expect(this.summaryHunterCondition).toHaveText("0/0 poäng")
 
-        this.btnProceed.click();
-        this.summaryCouponName.waitForDisplayed();
+        this.btnProceed.click()
+        this.summaryCouponName.waitForDisplayed()
     }
 
     /// CAMPAIGN COUPON ///
@@ -258,60 +300,60 @@ class CouponCreatedPage extends Page {
         /** STEP 1 */
         this.inputName.setValue(name)
         this.inputPrioNumber.setValue(prioNum)
-        this.typeCampaign.click();
-        this.petBoth.click();
-        this.inputDescription.setValue(desc);
-        this.uploadDefaultImg();
-        this.iconDatePicker.click();
-        this.currentDate.click();
+        this.typeCampaign.click()
+        this.petBoth.click()
+        this.inputDescription.setValue(desc)
+        this.uploadDefaultImg()
+        this.iconDatePicker.click()
+        this.currentDate.click()
         browser.pause(3000)
-        this.btnProceed.click();
+        this.btnProceed.click()
 
         /** STEP 2 */
-        this.groupProduct.click();
-        this.dropdownProduct.waitForClickable();
-        this.dropdownProduct.click();
-        this.addFirstDropdownItem.click();
-        this.inputMaxAggregate.setValue(maxAggregate);
+        this.groupProduct.click()
+        this.dropdownProduct.waitForClickable()
+        this.dropdownProduct.click()
+        this.addFirstDropdownItem.click()
+        this.inputMaxAggregate.setValue(maxAggregate)
 
         // fill all product discount input fields
-        let itemCount = $$('//input[@placeholder="Erbjudande"]').length;
-        let i = 1;
-        let discountValue = 10;
+        let itemCount = $$('//input[@placeholder="Erbjudande"]').length
+        let i = 1
+        let discountValue = 10
 
         for (let index = 0; index < itemCount; index++) {
-            let inputField = $('/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-coupon-create[1]/div[1]/div[2]/div[1]/div[1]/div[2]/form[1]/div[2]/div['+ i +']/div[1]/app-reward-type[1]/div[1]/input[1]');
+            let inputField = $('/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-coupon-create[1]/div[1]/div[2]/div[1]/div[1]/div[2]/form[1]/div[2]/div['+ i +']/div[1]/app-reward-type[1]/div[1]/input[1]')
             
-            inputField.setValue(discountValue);
-            i = i+1;
-            discountValue = discountValue + 5;
+            expect(inputField).toBeDisplayed({message: 'Input field is n ot show or xpath has been changed!'})
+            inputField.setValue(discountValue)
+            i = i+1
+            discountValue = discountValue + 5
         }
         // end
-        this.btnProceed.click();
+        this.btnProceed.click()
 
         /** STEP 3 */
-        this.groupProduct.click();
-        this.dropdownProduct.waitForClickable();
-        this.dropdownProduct.click();
-        this.addFirstDropdownItem.click();
-        //browser.pause(3000)
-        this.btnProceed.click();
+        this.groupProduct.click()
+        this.dropdownProduct.waitForClickable()
+        this.dropdownProduct.click()
+        this.addFirstDropdownItem.click()
+        this.btnProceed.click()
 
         /** SUMMARY */
         this.summaryTitle.waitForDisplayed()
-        expect(this.summaryTitle).toHaveText("Förhandsvisa kupong");
-        expect(this.summaryCouponName).toHaveText(name);
-        expect(this.summaryDescription).toHaveText(desc);
-        expect(this.summaryPetType).toHaveText("För hund och katt");
+        expect(this.summaryTitle).toHaveText("Förhandsvisa kupong")
+        expect(this.summaryCouponName).toHaveText(name)
+        expect(this.summaryDescription).toHaveText(desc)
+        expect(this.summaryPetType).toHaveText("För hund och katt")
         this.btnProceed.click()
         
-        this.title.waitForDisplayed();
+        this.title.waitForDisplayed()
     }
 
     validateCampaignCoupon (name, desc) {
-        expect(this.previewCouponName).toHaveText(name);
-        expect(this.previewDescription).toHaveText(desc);
-        expect(this.previewPetType).toHaveText("För hund och katt");
+        expect(this.previewCouponName).toHaveText(name)
+        expect(this.previewDescription).toHaveText(desc)
+        expect(this.previewPetType).toHaveText("För hund och katt")
     }
 
     editCampaignCoupon (name, prioNum, desc, maxAggregate) {
@@ -319,48 +361,47 @@ class CouponCreatedPage extends Page {
         /** STEP 1 */
         this.inputName.setValue(name)
         this.inputPrioNumber.setValue(prioNum)
-        this.petCat.click(); // Edits from Both into Dog
-        this.inputDescription.setValue(desc);
-        this.uploadNewImg(); // Edits coupon image
+        this.petCat.click() // Edits from Both into Dog
+        this.inputDescription.setValue(desc)
+        this.uploadNewImg() // Edits coupon image
         //browser.pause(3000)
-        this.btnProceed.click();
+        this.btnProceed.click()
 
         /** STEP 2 */
-        this.inputMaxAggregate.setValue(maxAggregate);
+        this.inputMaxAggregate.setValue(maxAggregate)
 
         // fill all product discount input fields
-        let itemCount = $$('//input[@placeholder="Erbjudande"]').length;
-        let i = 1;
-        let discountValue = 17;
+        let itemCount = $$('//input[@placeholder="Erbjudande"]').length
+        let discountValue = 17
 
-        for (let index = 0; index < itemCount; index++) {
+        for (let i = 0; i < itemCount; i++) {
             let inputField = $('/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-coupon-edit[1]/div[1]/div[2]/div[1]/div[1]/div[2]/form[1]/div[2]/div['+ i +']/div[1]/app-reward-type[1]/div[1]/input[1]')
             
-            inputField.setValue(discountValue);
-            i = i+1;
-            discountValue = discountValue + 10;
+            inputField.setValue(discountValue)
+            i = i+1
+            discountValue = discountValue + 10
         }
         // end
         //browser.pause(3000)
-        this.btnProceed.click();
+        this.btnProceed.click()
 
         /** STEP 3 */
-        this.btnProceed.click();
+        this.btnProceed.click()
 
         /** SUMMARY */
         this.summaryTitle.waitForDisplayed()
-        expect(this.summaryTitle).toHaveText("Förhandsvisa kupong");
-        expect(this.summaryCouponName).toHaveText(name);
-        expect(this.summaryDescription).toHaveText(desc);
-        expect(this.summaryPetType).toHaveText("För katt");
+        expect(this.summaryTitle).toHaveText("Förhandsvisa kupong")
+        expect(this.summaryCouponName).toHaveText(name)
+        expect(this.summaryDescription).toHaveText(desc)
+        expect(this.summaryPetType).toHaveText("För katt")
 
-        this.btnProceed.click();
-        this.summaryCouponName.waitForDisplayed();
+        this.btnProceed.click()
+        this.summaryCouponName.waitForDisplayed()
     }
 
     open () {
-        return super.open('coupon/list');
+        return super.open('coupon/list')
     }
 }
 
-module.exports = new CouponCreatedPage();
+module.exports = new CouponCreatedPage()
