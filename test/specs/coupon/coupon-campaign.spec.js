@@ -1,28 +1,23 @@
 const LoginPage = require('../../pages/auth/login.page');
-const CouponCreatedPage = require('../../pages/coupon/coupon_created.page') 
+const CouponCreatedPage = require('../../pages/coupon/coupon-created.page') 
 const CouponMainPage = require('../../pages/coupon/coupon-main.page') 
 const CouponPublishedPage = require('../../pages/coupon/coupon-published.page')
 
 
-let couponName = ("Campaign~"+Random.string());
+const { credentials } = require('../../../environments/environment-variables')
+const coupon = require('../../../data/coupon-data')
 
-describe('As Admin, I can create a Campaign Coupon && As Admin, I can preview the summary Campaign Coupon to be created', () => {
+describe.only('As Admin, I can create a Campaign Coupon && As Admin, I can preview the summary Campaign Coupon to be created', () => {
     
     it('Logs in Netzon Admin with valid credentials', () => {
         LoginPage.open()
-        LoginPage.login(process.env.STAGING_ADMIN_EMAIL, process.env.STAGING_ADMIN_PASS);  
+        LoginPage.login(credentials, 'admin');  
     });
 
     it('Creates a Campaign Coupon', () => {
-        CouponMainPage.open();
         CouponMainPage.btnCreateCoupon.click();
         
-        CouponCreatedPage.createCampaignCoupon(
-            couponName, // Coupon name parameter
-            '1', // Coupon prio number parameter
-            'this is description for campaign coupon', // Coupon description parameter
-            '1', // Campaign reward Max Aggregate
-            );
+        CouponCreatedPage.createCoupon(coupon, 'campaign');
     })
 })
 
