@@ -101,7 +101,10 @@ class CouponCreatedPage extends Page {
     }
 
     createCoupon (coupon, couponType) {
-        
+        CouponMainPage.iconRemoveFilter.click() // buffer. Won't click btnCreateCoupon unless coupon images are fully loaded
+
+        CouponMainPage.btnCreateCoupon.click()
+
         /** STEP 1 */
         this.inputName.setValue(coupon.name)
         this.inputPrioNumber.setValue(coupon.priority)
@@ -200,54 +203,71 @@ class CouponCreatedPage extends Page {
         }
     }
 
-    validateBonusCoupon (coupon, couponType, isEdited) {
-        switch(isEdited) {
-            case false:
-                expect(this.previewCouponName).toHaveText(coupon.name)
-                expect(this.previewDescription).toHaveText(coupon.description)
-                switch(coupon.petType) {
-                    case "Dog":
-                        expect(this.previewPetType).toHaveText("För hund")
-                        break
-                    case "Cat":
-                        expect(this.previewPetType).toHaveText("För katt")
-                        break
-                    case "Both":
-                        expect(this.previewPetType).toHaveText("För hund och katt")
-                        break
-                }
-                expect(this.previewConsumerReward).toHaveText(coupon.consumerReward + "% rabatt")
-                expect(this.previewBreederReward).toHaveText(coupon.breederReward + "% rabatt")
-                expect(this.previewHunterReward).toHaveText(coupon.hunterReward + "% rabatt")
-                expect(this.previewConsumerCondition).toHaveText(coupon.consumerCondition + "/" + coupon.consumerCondition + " poäng")
-                expect(this.previewBreederCondition).toHaveText("0/0 poäng")
-                expect(this.previewHunterCondition).toHaveText("0/0 poäng")
-                break
-            case true:
-                expect(this.previewCouponName).toHaveText(coupon.nameEdited)
-                expect(this.previewDescription).toHaveText(coupon.descriptionEdited)
-                switch(coupon.petTypeEdited) {
-                    case "Dog":
-                        expect(this.previewPetType).toHaveText("För hund")
-                        break
-                    case "Cat":
-                        expect(this.previewPetType).toHaveText("För katt")
-                        break
-                    case "Both":
-                        expect(this.previewPetType).toHaveText("För hund och katt")
-                        break
-                }
-                expect(this.previewConsumerReward).toHaveText(coupon.consumerRewardEdited + "% rabatt")
-                expect(this.previewBreederReward).toHaveText(coupon.breederRewardEdited + "% rabatt")
-                expect(this.previewHunterReward).toHaveText(coupon.hunterRewardEdited + "% rabatt")
-                expect(this.previewConsumerCondition).toHaveText(coupon.consumerConditionEdited + "/" + coupon.consumerConditionEdited + " poäng")
-                expect(this.previewBreederCondition).toHaveText("0/0 poäng")
-                expect(this.previewHunterCondition).toHaveText("0/0 poäng")
-                break
+    validateCoupon (coupon, couponType, isEdited) {
+
+        if(!isEdited) {
+            switch (couponType) {
+                case 'bonus':
+                    console.log("Validating NON-EDITED values")
+                    expect(this.previewCouponName).toHaveText(coupon.name)
+                    expect(this.previewDescription).toHaveText(coupon.description)
+                    switch(coupon.petType) {
+                        case "Dog":
+                            expect(this.previewPetType).toHaveText("För hund")
+                            break
+                        case "Cat":
+                            expect(this.previewPetType).toHaveText("För katt")
+                            break
+                        case "Both":
+                            expect(this.previewPetType).toHaveText("För hund och katt")
+                            break
+                    }
+                    expect(this.previewConsumerReward).toHaveText(coupon.consumerReward + "% rabatt")
+                    expect(this.previewBreederReward).toHaveText(coupon.breederReward + "% rabatt")
+                    expect(this.previewHunterReward).toHaveText(coupon.hunterReward + "% rabatt")
+                    expect(this.previewConsumerCondition).toHaveText(coupon.consumerCondition + "/" + coupon.consumerCondition + " poäng")
+                    expect(this.previewBreederCondition).toHaveText("0/0 poäng")
+                    expect(this.previewHunterCondition).toHaveText("0/0 poäng")
+                    break
+                case 'campaign':
+                    expect(this.previewCouponName).toHaveText(coupon.name)
+                    expect(this.previewDescription).toHaveText(coupon.description)
+                    expect(this.previewPetType).toHaveText("För hund och katt")  
+            }
+        } else {
+            switch(couponType) {
+                case 'bonus':
+                    console.log("Validating EDITED values")
+                    expect(this.previewCouponName).toHaveText(coupon.nameEdited)
+                    expect(this.previewDescription).toHaveText(coupon.descriptionEdited)
+                    switch(coupon.petTypeEdited) {
+                        case "Dog":
+                            expect(this.previewPetType).toHaveText("För hund")
+                            break
+                        case "Cat":
+                            expect(this.previewPetType).toHaveText("För katt")
+                            break
+                        case "Both":
+                            expect(this.previewPetType).toHaveText("För hund och katt")
+                            break
+                    }
+                    expect(this.previewConsumerReward).toHaveText(coupon.consumerRewardEdited + "% rabatt")
+                    expect(this.previewBreederReward).toHaveText(coupon.breederRewardEdited + "% rabatt")
+                    expect(this.previewHunterReward).toHaveText(coupon.hunterRewardEdited + "% rabatt")
+                    expect(this.previewConsumerCondition).toHaveText(coupon.consumerConditionEdited + "/" + coupon.consumerConditionEdited + " poäng")
+                    expect(this.previewBreederCondition).toHaveText("0/0 poäng")
+                    expect(this.previewHunterCondition).toHaveText("0/0 poäng")
+                    break
+                case 'campaign':
+                    expect(this.previewCouponName).toHaveText(coupon.nameEdited)
+                    expect(this.previewDescription).toHaveText(coupon.descriptionEdited)
+                    expect(this.previewPetType).toHaveText("För hund och katt")
+            }
         }
+
     }
 
-    editBonusCoupon (coupon, couponType) {
+    editCoupon (coupon, couponType) {
         
         /** STEP 1 */
         this.inputName.setValue(coupon.nameEdited)
@@ -267,134 +287,63 @@ class CouponCreatedPage extends Page {
         this.uploadNewImg() // Edits coupon image
         this.btnProceed.click()
 
-        /** STEP 2 */
-        this.inputConsumerReward.setValue(coupon.consumerRewardEdited)
-        this.inputHunterReward.setValue(coupon.hunterRewardEdited)
-        this.inputBreederReward.setValue(coupon.breederRewardEdited)
-        this.btnProceed.click()
+        switch (couponType) {
+            case 'bonus':
+                /** STEP 2 */
+                this.inputConsumerReward.setValue(coupon.consumerRewardEdited)
+                this.inputHunterReward.setValue(coupon.hunterRewardEdited)
+                this.inputBreederReward.setValue(coupon.breederRewardEdited)
+                this.btnProceed.click()
 
-        /** STEP 3 */
-        this.inputConsumerCondition.setValue(coupon.consumerConditionEdited)
-        this.btnProceed.click()
+                /** STEP 3 */
+                this.inputConsumerCondition.setValue(coupon.consumerConditionEdited)
+                this.btnProceed.click()
 
-        /** SUMMARY */
-        this.summaryTitle.waitForDisplayed()
-        expect(this.summaryTitle).toHaveText("Förhandsvisa kupong")
-        expect(this.summaryCouponName).toHaveText(coupon.nameEdited)
-        expect(this.summaryDescription).toHaveText(coupon.descriptionEdited)
-        expect(this.summaryPetType).toHaveText("För hund")
-        expect(this.summaryConsumerReward).toHaveText(coupon.consumerRewardEdited + "% rabatt")
-        expect(this.summaryBreederReward).toHaveText(coupon.breederRewardEdited + "% rabatt")
-        expect(this.summaryHunterReward).toHaveText(coupon.hunterRewardEdited + "% rabatt")
-        expect(this.summaryConsumerCondition).toHaveText(coupon.consumerConditionEdited + "/" + coupon.consumerConditionEdited + " poäng")
-        expect(this.summaryBreederCondition).toHaveText("0/0 poäng")
-        expect(this.summaryHunterCondition).toHaveText("0/0 poäng")
+                /** SUMMARY */
+                this.summaryTitle.waitForDisplayed()
+                expect(this.summaryTitle).toHaveText("Förhandsvisa kupong")
+                expect(this.summaryCouponName).toHaveText(coupon.nameEdited)
+                expect(this.summaryDescription).toHaveText(coupon.descriptionEdited)
+                expect(this.summaryPetType).toHaveText("För hund")
+                expect(this.summaryConsumerReward).toHaveText(coupon.consumerRewardEdited + "% rabatt")
+                expect(this.summaryBreederReward).toHaveText(coupon.breederRewardEdited + "% rabatt")
+                expect(this.summaryHunterReward).toHaveText(coupon.hunterRewardEdited + "% rabatt")
+                expect(this.summaryConsumerCondition).toHaveText(coupon.consumerConditionEdited + "/" + coupon.consumerConditionEdited + " poäng")
+                expect(this.summaryBreederCondition).toHaveText("0/0 poäng")
+                expect(this.summaryHunterCondition).toHaveText("0/0 poäng")
 
-        this.btnProceed.click()
-        this.summaryCouponName.waitForDisplayed()
-    }
+                break
+            case 'campaign':
+                /** STEP 2 */
+                this.inputMaxAggregate.setValue(coupon.maxAggregate)
 
-    /// CAMPAIGN COUPON ///
-    createCampaignCoupon (name, prioNum, desc, maxAggregate) {
-        
-        /** STEP 1 */
-        this.inputName.setValue(name)
-        this.inputPrioNumber.setValue(prioNum)
-        this.typeCampaign.click()
-        this.petBoth.click()
-        this.inputDescription.setValue(desc)
-        this.uploadDefaultImg()
-        this.iconDatePicker.click()
-        this.currentDate.click()
-        browser.pause(3000)
-        this.btnProceed.click()
+                // fill all product discount input fields
+                let itemCount = $$('//input[@placeholder="Erbjudande"]').length
+                let discountValue = 17
+                let discountFieldCount = 1
 
-        /** STEP 2 */
-        this.groupProduct.click()
-        this.dropdownProduct.waitForClickable()
-        this.dropdownProduct.click()
-        this.addFirstDropdownItem.click()
-        this.inputMaxAggregate.setValue(maxAggregate)
+                for (let i = 0; i < itemCount; i++) {
+                    let inputField = $('/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-coupon-edit[1]/div[1]/div[2]/div[1]/div[1]/div[2]/form[1]/div[2]/div['+ discountFieldCount +']/div[1]/app-reward-type[1]/div[1]/input[1]')
+                    
+                    inputField.setValue(discountValue)
+                    discountFieldCount = discountFieldCount+1
+                    discountValue = discountValue + 10
+                }
+                this.btnProceed.click()
 
-        // fill all product discount input fields
-        let itemCount = $$('//input[@placeholder="Erbjudande"]').length
-        let i = 1
-        let discountValue = 10
+                /** STEP 3 */
+                this.btnProceed.click()
 
-        for (let index = 0; index < itemCount; index++) {
-            let inputField = $('/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-coupon-create[1]/div[1]/div[2]/div[1]/div[1]/div[2]/form[1]/div[2]/div['+ i +']/div[1]/app-reward-type[1]/div[1]/input[1]')
-            
-            expect(inputField).toBeDisplayed({message: 'Input field is n ot show or xpath has been changed!'})
-            inputField.setValue(discountValue)
-            i = i+1
-            discountValue = discountValue + 5
+                /** SUMMARY */
+                this.summaryTitle.waitForDisplayed()
+                expect(this.summaryTitle).toHaveText("Förhandsvisa kupong")
+                expect(this.summaryCouponName).toHaveText(coupon.nameEdited)
+                expect(this.summaryDescription).toHaveText(coupon.descriptionEdited)
+                expect(this.summaryPetType).toHaveText("För hund")
+                
+                break
         }
-        // end
-        this.btnProceed.click()
-
-        /** STEP 3 */
-        this.groupProduct.click()
-        this.dropdownProduct.waitForClickable()
-        this.dropdownProduct.click()
-        this.addFirstDropdownItem.click()
-        this.btnProceed.click()
-
-        /** SUMMARY */
-        this.summaryTitle.waitForDisplayed()
-        expect(this.summaryTitle).toHaveText("Förhandsvisa kupong")
-        expect(this.summaryCouponName).toHaveText(name)
-        expect(this.summaryDescription).toHaveText(desc)
-        expect(this.summaryPetType).toHaveText("För hund och katt")
-        this.btnProceed.click()
         
-        this.title.waitForDisplayed()
-    }
-
-    validateCampaignCoupon (name, desc) {
-        expect(this.previewCouponName).toHaveText(name)
-        expect(this.previewDescription).toHaveText(desc)
-        expect(this.previewPetType).toHaveText("För hund och katt")
-    }
-
-    editCampaignCoupon (name, prioNum, desc, maxAggregate) {
-        
-        /** STEP 1 */
-        this.inputName.setValue(name)
-        this.inputPrioNumber.setValue(prioNum)
-        this.petCat.click() // Edits from Both into Dog
-        this.inputDescription.setValue(desc)
-        this.uploadNewImg() // Edits coupon image
-        //browser.pause(3000)
-        this.btnProceed.click()
-
-        /** STEP 2 */
-        this.inputMaxAggregate.setValue(maxAggregate)
-
-        // fill all product discount input fields
-        let itemCount = $$('//input[@placeholder="Erbjudande"]').length
-        let discountValue = 17
-
-        for (let i = 0; i < itemCount; i++) {
-            let inputField = $('/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-coupon-edit[1]/div[1]/div[2]/div[1]/div[1]/div[2]/form[1]/div[2]/div['+ i +']/div[1]/app-reward-type[1]/div[1]/input[1]')
-            
-            inputField.setValue(discountValue)
-            i = i+1
-            discountValue = discountValue + 10
-        }
-        // end
-        //browser.pause(3000)
-        this.btnProceed.click()
-
-        /** STEP 3 */
-        this.btnProceed.click()
-
-        /** SUMMARY */
-        this.summaryTitle.waitForDisplayed()
-        expect(this.summaryTitle).toHaveText("Förhandsvisa kupong")
-        expect(this.summaryCouponName).toHaveText(name)
-        expect(this.summaryDescription).toHaveText(desc)
-        expect(this.summaryPetType).toHaveText("För katt")
-
         this.btnProceed.click()
         this.summaryCouponName.waitForDisplayed()
     }
