@@ -288,7 +288,7 @@ exports.config = {
      */
     afterTest: function(test, context, { error, result, duration, passed, retries }) {
         console.log(`Finished test "${test.parent} - ${test.title}"`)
-        browser.pause(2000)
+        //browser.pause(2000)
 
     },
 
