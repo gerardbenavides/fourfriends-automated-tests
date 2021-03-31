@@ -15,44 +15,33 @@ describe.only('As Admin, I can create a Campaign Coupon && As Admin, I can previ
     });
 
     it('Creates a Campaign Coupon', () => {
-        CouponMainPage.btnCreateCoupon.click();
+        CouponMainPage.btnCreateCoupon.waitForClickable()
+        CouponMainPage.btnCreateCoupon.click()
         
-        CouponCreatedPage.createCoupon(coupon, 'campaign');
+        CouponCreatedPage.createCoupon(coupon, 'campaign')
     })
 })
 
-describe('As Admin, I can search the created Campaign Coupon', () => {
+describe.only('As Admin, I can search the created Campaign Coupon', () => {
         it('Searches the created Campaign Coupon', () => {
-        CouponMainPage.tabCampaign.click();
-        CouponMainPage.iconSearch.click();
-        CouponMainPage.inputSearch.setValue(couponName);
+        CouponMainPage.searchCoupon(coupon.name);
     })
-
-
     it('Clicks and previews the created Campaign coupon', () => {        
-        CouponMainPage.createdCouponLocator(couponName).isDisplayed();
+        expect(CouponMainPage.couponLocator(coupon.name)).toBeDisplayed();
 
-        CouponMainPage.createdCouponLocator(couponName).click();
-        expect(CouponCreatedPage.previewCouponName).toHaveText(couponName)
+        CouponMainPage.couponLocator(coupon.name).click();
+        expect(CouponCreatedPage.previewCouponName).toHaveText(coupon.name)
     })
 
     it('Validates the created Campaign Coupon\'s details', () => {
-        CouponCreatedPage.validateCampaignCoupon(
-            couponName, // Coupon name parameter
-            'this is description for campaign coupon', // Coupon description parameter
-            );
+        CouponCreatedPage.validateCampaignCoupon(coupon, 'campaign', true);
         })
 })
-describe('As Admin, I can edit the created Campaign Coupon', () => {
+describe.only('As Admin, I can edit the created Campaign Coupon', () => {
     it('Edits the created Campaign Coupon', () => {
         CouponCreatedPage.btnEditCoupon.click();
 
-        CouponCreatedPage.editCampaignCoupon(
-            couponName + '~Edited', // Coupon name parameter
-            '10', // Coupon prio number parameter
-            'This is an updated coupon description', // Coupon description parameter
-            '8', // Campaign reward Max Aggregate
-            );
+        CouponCreatedPage.editCoupon(coupon, 'campaign');
     });
 })
 describe('As Admin, I can publish the created Campaign Coupon', () => {
