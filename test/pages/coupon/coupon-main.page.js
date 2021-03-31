@@ -14,11 +14,17 @@ class CouponMainPage extends Page {
     get btnCreateCoupon () { return $('//button[@class="label button-primary"]')}
     get iconSearch () { return $('//div[@class="action-search icon-container flex-center clickable ng-star-inserted"]//div[@class="icon-svg flex-center"]')}    
     get inputSearch () { return $('//input[@placeholder="Sök kupong"]')}
+    get iconRemoveFilter () { return $('//div[@class="filter-wrapper flex-start-center"]//div//app-icon-svg')}
     
     /** METHODS */
     
-    createdCouponLocator (name) {
-        return $('//app-coupon-card//span[.="' +name+ '"]');
+    couponLocator (couponName) {
+        return $('//app-coupon-card//span[.="' +couponName+ '"]');
+    }
+    searchCoupon (couponName) {
+        this.tabCampaign.click()
+        this.iconSearch.click()
+        this.inputSearch.setValue(couponName);
     }
 
     open () {
