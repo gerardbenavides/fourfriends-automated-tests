@@ -14,7 +14,7 @@ describe('As Admin, I can create a Bonus Coupon && As Admin, I can preview the s
     })
 
     it('Should create a Bonus Coupon', () => {
-        CouponMainPage.open()
+        CouponMainPage.btnCreateCoupon.waitForClickable()
         CouponMainPage.btnCreateCoupon.click()
         
         CouponCreatedPage.createCoupon(coupon, 'bonus')
@@ -28,22 +28,22 @@ describe('As Admin, I can search the created Bonus Coupon', () => {
     })
 
     it('Should click and previews the created coupon', () => {
-        CouponMainPage.createdCouponLocator(coupon.name).waitForDisplayed()
-        CouponMainPage.createdCouponLocator(coupon.name).click()
+        CouponMainPage.couponLocator(coupon.name).waitForDisplayed()
+        CouponMainPage.couponLocator(coupon.name).click()
         expect(CouponCreatedPage.previewCouponName).toHaveText(coupon.name)
     })
 
     it('Should validate the created Bonus Coupon\'s details', () => {
-        CouponCreatedPage.validateBonusCoupon(coupon, 'bonus', false)
+        CouponCreatedPage.validateCoupon(coupon, 'bonus', false)
         })
 })
 describe('As Admin, I can edit the created Bonus Coupon', () => {
     it('Should edit the created Bonus Coupon', () => {
         CouponCreatedPage.btnEditCoupon.click()
-        CouponCreatedPage.editBonusCoupon(coupon, 'bonus')
+        CouponCreatedPage.editCoupon(coupon, 'bonus')
     })
     it('Should validate the created Bonus Coupon\'s details', () => {
-        CouponCreatedPage.validateBonusCoupon(coupon, 'bonus', true)
+        CouponCreatedPage.validateCoupon(coupon, 'bonus', true)
         })
     })
 
@@ -61,14 +61,14 @@ describe('As Admin, I can publish the created Bonus Coupon', () => {
         
         CouponMainPage.tabPublished.click()
 
-        CouponMainPage.createdCouponLocator(coupon.nameEdited).waitForDisplayed()
-        expect(CouponMainPage.createdCouponLocator(coupon.nameEdited)).toHaveText(coupon.nameEdited)
+        CouponMainPage.couponLocator(coupon.nameEdited).waitForDisplayed()
+        expect(CouponMainPage.couponLocator(coupon.nameEdited)).toHaveText(coupon.nameEdited)
     })
 })
 
 describe('As Admin, I can unpublish the created Bonus Coupon', () => {
     it('Should unpublish Bonus Coupon', () => {
-        CouponMainPage.createdCouponLocator(coupon.nameEdited).click()
+        CouponMainPage.couponLocator(coupon.nameEdited).click()
 
         CouponPublishedPage.btnUnpublishCoupon.click()
         CouponPublishedPage.popupBtnUnpublish.click()
@@ -80,7 +80,7 @@ describe('As Admin, I can unpublish the created Bonus Coupon', () => {
     it('Should delete the Bonus Coupon', () => {
         CouponMainPage.tabCreated.click()
 
-        CouponMainPage.createdCouponLocator(coupon.nameEdited).click()
+        CouponMainPage.couponLocator(coupon.nameEdited).click()
 
         CouponCreatedPage.btnDeleteCoupon.click()
         CouponCreatedPage.popupBtnDelete.click()
