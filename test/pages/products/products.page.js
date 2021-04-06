@@ -44,20 +44,20 @@ class ProductsPage extends Page {
     /** METHODS */
     
         
-    addProduct (sku, ean, name, desc) {
-        this.inputSKU.setValue(sku)
-        this.inputEAN.setValue(ean)
-        this.inputProductName.setValue(name)
-        this.inputProductDesc.setValue(desc)
+    addProduct (product) {
+        this.inputSKU.setValue(product.sku)
+        this.inputEAN.setValue(product.ean)
+        this.inputProductName.setValue(product.name)
+        this.inputProductDesc.setValue(product.description)
         //browser.pause(5000)
         this.btnSave.click();
     }
 
-    validateProduct (sku, ean, name, desc) {
-        expect(this.productSKU).toHaveText("Produktnr: " + sku)
-        expect(this.productEAN).toHaveText("EAN: " + ean)
-        expect(this.productName).toHaveText(name)
-        expect(this.productDesc).toHaveText(desc)
+    validateProduct (product) {
+        expect(this.productSKU).toHaveText("Produktnr: " + product.sku)
+        expect(this.productEAN).toHaveText("EAN: " + product.ean)
+        expect(this.productName).toHaveText(product.name)
+        expect(this.productDesc).toHaveText(product.description)
     }
 
     createdProductLocator (name) {

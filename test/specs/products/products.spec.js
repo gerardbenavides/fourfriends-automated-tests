@@ -1,20 +1,13 @@
 const HomePage = require('../../pages/home/home.page');
 const LoginPage = require('../../pages/auth/login.page');
-const ProductsPage = require('../../pages/products/products.page');
-const Random = require('../../helpers/random')
+const ProductsPage = require('../../pages/products/products.page')
 
-let sku = ("9" + Random.integer10());
-let ean = ("9" + Random.integer10());
-let productName = ("9_" + Random.string());
-let productDesc = Random.paragraph();
-let groupName = ("7GROUP_" + Random.string());
-
+const { credentials } = require('../../../environments/environment-variables')
+let product = require('../../../data/product-data')
 describe('As Admin, I can login to the web admin portal', () => {
-    it('Logs in Netzon Admin with valid credentials', () => {
-        LoginPage.open();
-
-        LoginPage.login(process.env.STAGING_ADMIN_EMAIL, process.env.STAGING_ADMIN_PASS);
-        
+    it('Should login Netzon Admin with valid credentials', () => {
+        LoginPage.open()
+        LoginPage.login(credentials, 'admin')  
     })
 })
 
@@ -31,12 +24,7 @@ describe('As Admin, I can add a Single product', () => {
         ProductsPage.btnAdd.click();
         expect(ProductsPage.title).toHaveText("Lägg till produkt");
 
-        ProductsPage.addProduct(
-            sku, // Product SKU parameter
-            ean, // Product EAN Code parameter
-            productName, // Product Name parameter
-            productDesc // Product Description parameter
-        )
+        ProductsPage.addProduct(product)
         expect(ProductsPage.title).toHaveText("Produkter");
     })
 })
@@ -44,15 +32,10 @@ describe('As Admin, I can add a Single product', () => {
 describe('As Admin, I can search and validate a Single product', () => {
     it('Searches and validates created single product', () => {
         ProductsPage.iconSearch.click();
-        ProductsPage.inputSearch.setValue(productName);
+        ProductsPage.inputSearch.setValue(product.name);
 
-        ProductsPage.createdProductLocator(productName).click();
-        ProductsPage.validateProduct(
-            sku, // Product SKU parameter
-            ean, // Product EAN Code parameter
-            productName, // Product Name parameter
-            productDesc // Product Description parameter
-        )
+        ProductsPage.createdProductLocator(product.name).click();
+        ProductsPage.validateProduct(product)
 
         ProductsPage.btnBack.click();
         })
@@ -69,23 +52,23 @@ describe('As Admin, I can add a Group of products', () => {
         expect(ProductsPage.headerGroupProduct).toHaveText("Lägger till grupp");
 
         ProductsPage.checkboxSelectAll.click();
-        ProductsPage.inputGroupName.setValue(groupName);
+        ProductsPage.inputGroupName.setValue(product.groupName);
         ProductsPage.btnSave.click();
         browser.pause(3000);
         
-        ProductsPage.createdGroupLocator(groupName).waitForDisplayed();
+        ProductsPage.createdGroupLocator(product.groupName).waitForDisplayed();
 
     })
     
     it('Locates and deletes created group', () => {
 
-        ProductsPage.createdGroupLocator(groupName).waitForDisplayed();
+        ProductsPage.createdGroupLocator(product.groupName).waitForDisplayed();
         
-        ProductsPage.createdGroupLocator(groupName).scrollIntoView();
-        ProductsPage.createdGroupLocator(groupName).click();
+        ProductsPage.createdGroupLocator(product.groupName).scrollIntoView();
+        ProductsPage.createdGroupLocator(product.groupName).click();
 
         ProductsPage.isGroupExpanded();
-        ProductsPage.btnDeleteGroup.waitForDisplayed(groupName);
+        ProductsPage.btnDeleteGroup.waitForDisplayed(product.groupName);
         ProductsPage.btnDeleteGroup.scrollIntoView();
         ProductsPage.btnDeleteGroup.click();
         ProductsPage.popupBtnDelete.click();
@@ -95,7 +78,7 @@ describe('As Admin, I can add a Group of products', () => {
     it('Validates that group is deleted', () => {
 
         ProductsPage.iconSearch.click();
-        ProductsPage.inputSearchGroup.setValue(groupName);
+        ProductsPage.inputSearchGroup.setValue(product.groupName);
         ProductsPage.resultNotFound.isDisplayed();
     })
 })
