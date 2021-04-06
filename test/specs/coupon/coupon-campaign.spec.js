@@ -7,7 +7,7 @@ const CouponPublishedPage = require('../../pages/coupon/coupon-published.page')
 const { credentials } = require('../../../environments/environment-variables')
 const coupon = require('../../../data/coupon-data')
 
-describe.only('As Admin, I can create a Campaign Coupon && As Admin, I can preview the summary Campaign Coupon to be created', () => {
+describe('As Admin, I can create a Campaign Coupon && As Admin, I can preview the summary Campaign Coupon to be created', () => {
     
     it('Logs in Netzon Admin with valid credentials', () => {
         LoginPage.open()
@@ -22,7 +22,7 @@ describe.only('As Admin, I can create a Campaign Coupon && As Admin, I can previ
     })
 })
 
-describe.only('As Admin, I can search the created Campaign Coupon', () => {
+describe('As Admin, I can search the created Campaign Coupon', () => {
         it('Searches the created Campaign Coupon', () => {
         CouponMainPage.searchCoupon(coupon.name);
     })
@@ -34,10 +34,10 @@ describe.only('As Admin, I can search the created Campaign Coupon', () => {
     })
 
     it('Validates the created Campaign Coupon\'s details', () => {
-        CouponCreatedPage.validateCampaignCoupon(coupon, 'campaign', true);
+        CouponCreatedPage.validateCoupon(coupon, 'campaign', false);
         })
 })
-describe.only('As Admin, I can edit the created Campaign Coupon', () => {
+describe('As Admin, I can edit the created Campaign Coupon', () => {
     it('Edits the created Campaign Coupon', () => {
         CouponCreatedPage.btnEditCoupon.click();
 
@@ -55,17 +55,17 @@ describe('As Admin, I can publish the created Campaign Coupon', () => {
     })
 
     it('Validates if Campaign is published', () => {
-        
         CouponMainPage.tabPublished.click();
+        CouponMainPage.tabCampaign.click();
 
-        CouponMainPage.createdCouponLocator(couponName).waitForDisplayed();
-        expect(CouponMainPage.createdCouponLocator(couponName)).toHaveText(couponName + "~Edited");
+        CouponMainPage.couponLocator(coupon.nameEdited).waitForDisplayed();
+        //expect(CouponMainPage.couponLocator(coupon.name)).toHaveText(coupon.name + "~");
 
     })
 })
 describe('As Admin, I can unpublish the created Campaign Coupon', () => {
     it('Unpublishes Campaign Coupon', () => {
-        CouponMainPage.createdCouponLocator(couponName).click();
+        CouponMainPage.couponLocator(coupon.nameEdited).click();
 
         CouponPublishedPage.btnUnpublishCoupon.click();
         CouponPublishedPage.popupBtnUnpublish.click();
@@ -78,7 +78,7 @@ describe('As Admin, I can delete the created Campaign Coupon', () => {
     it('Deletes the Campaign Coupon', () => {
         CouponMainPage.tabCreated.click();
 
-        CouponMainPage.createdCouponLocator(couponName).click();
+        CouponMainPage.couponLocator(coupon.nameEdited).click();
 
         CouponCreatedPage.btnDeleteCoupon.click();
         CouponCreatedPage.popupBtnDelete.click();
