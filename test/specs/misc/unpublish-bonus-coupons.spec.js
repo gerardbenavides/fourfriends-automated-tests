@@ -2,12 +2,14 @@ const LoginPage = require('../../pages/auth/login.page');
 const CouponPublishedPage = require('../../pages/coupon/coupon-published.page') 
 const CouponMainPage = require('../../pages/coupon/coupon-main.page') 
 
+const { credentials } = require('../../../environments/environment-variables')
+
 describe('Unpublishes all coupons in Published > Bonus page', () => {
 
-    it('Logs in Netzon Admin with valid credentials', () => {
+    it('Should login Netzon Admin with valid credentials', () => {
         LoginPage.open()
-        LoginPage.login(process.env.STAGING_ADMIN_EMAIL, process.env.STAGING_ADMIN_PASS);  
-    });
+        LoginPage.login(credentials, 'admin')  
+    })
 
     it('Unpublishes all Bonus Coupons', () => {
         CouponMainPage.tabPublished.click();

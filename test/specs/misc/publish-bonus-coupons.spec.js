@@ -2,17 +2,17 @@ const LoginPage = require('../../pages/auth/login.page');
 const CouponCreatedPage = require('../../pages/coupon/coupon_created.page') 
 const CouponMainPage = require('../../pages/coupon/coupon-main.page') 
 
-describe('Publishes all coupons in Created > Bonus page', () => {
+const { credentials } = require('../../../environments/environment-variables')
 
-    it('Logs in Netzon Admin with valid credentials', () => {
+describe('Publishes all coupons in Created > Bonus page', () => {
+    it('Should login Netzon Admin with valid credentials', () => {
         LoginPage.open()
-        LoginPage.login(process.env.STAGING_ADMIN_EMAIL, process.env.STAGING_ADMIN_PASS);  
-    });
+        LoginPage.login(credentials, 'admin')  
+    })
 
     it('Publishes all Created Bonus Coupons', () => {
 
         CouponMainPage.tabCreated.click();
-         
         let coupon = $('/html[1]/body[1]/app-root[1]/div[1]/div[2]/app-coupon-list[1]/div[1]/div[2]/app-coupon-grid[1]/div[1]/div[1]/app-coupon-card[1]')
         coupon.waitForDisplayed();
 

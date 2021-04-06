@@ -2,12 +2,14 @@ const LoginPage = require('../../pages/auth/login.page');
 const CouponCreatedPage = require('../../pages/coupon/coupon_created.page') 
 const CouponMainPage = require('../../pages/coupon/coupon-main.page') 
 
+const { credentials } = require('../../../environments/environment-variables')
+
 describe('Deletes all coupons in Created > Bonus page', () => {
 
-    it.only('Logs in Netzon Admin with valid credentials', () => {
+    it.only('Should login Netzon Admin with valid credentials', () => {
         LoginPage.open()
-        LoginPage.login(process.env.STAGING_ADMIN_EMAIL, process.env.STAGING_ADMIN_PASS);  
-    });
+        LoginPage.login(credentials, 'admin')  
+    })
 
     it.only('Delete Created Bonus Coupons', () => {
 
@@ -25,7 +27,5 @@ describe('Deletes all coupons in Created > Bonus page', () => {
             CouponCreatedPage.popupBtnDelete.click();
             CouponMainPage.title.waitForDisplayed();
         }
-        
-        
     })
 })

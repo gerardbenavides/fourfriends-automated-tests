@@ -2,12 +2,14 @@ const LoginPage = require('../../pages/auth/login.page');
 const CouponCreatedPage = require('../../pages/coupon/coupon_created.page') 
 const CouponMainPage = require('../../pages/coupon/coupon-main.page') 
 
+const { credentials } = require('../../../environments/environment-variables')
+
 describe('Publishes all coupons in Created > Campaign page', () => {
 
-    it('Logs in Netzon Admin with valid credentials', () => {
+    it('Should login Netzon Admin with valid credentials', () => {
         LoginPage.open()
-        LoginPage.login(process.env.STAGING_ADMIN_EMAIL, process.env.STAGING_ADMIN_PASS);  
-    });
+        LoginPage.login(credentials, 'admin')  
+    })
 
     it('Publishes all Created Campaign Coupons', () => {
 
