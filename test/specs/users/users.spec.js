@@ -4,9 +4,7 @@ const UsersPage = require('../../pages/users/users.page');
 const ProfilePage = require('../../pages/home/profile.page');
 const StorePage = require('../../pages/store/store.page')
 
-let invitedAdminFirstName = Random.firstName();
-let invitedAdminLastName = Random.lastName();
-let invitedAdminEmail = Random.email();
+const invitedUser = require('../../../data/invited-user-data')
 
 describe('As Admin, I can login to the web admin portal', () => {
     it('Logs in Netzon Admin with valid credentials', () => {
