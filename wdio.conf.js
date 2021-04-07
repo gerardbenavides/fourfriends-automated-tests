@@ -238,7 +238,7 @@ exports.config = {
      */
     beforeSession: function (config, capabilities, specs) {
         moment = require('moment')
-        today = moment().format('YYYY-MM-DD-HH[h]+mm[m]+ss[s]')
+        time = moment().format('YYYY-MM-DD-HH[h]+mm[m]+ss[s]')
         random = require('./test/helpers/random')
 
     },
