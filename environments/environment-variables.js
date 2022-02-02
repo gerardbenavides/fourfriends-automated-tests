@@ -28,55 +28,55 @@ switch (env_arg) {
 let credentials = {
     DEV: {
         admin: {
-            email: 'netzon.administrator@mailinator.com',
+            email: 'test@mailinator.com',
             password: 'password',
         },
         manager: {
-            email: 'netzon.store.manager@mailinator.com',
+            email: 'test@mailinator.com',
             password: 'password',
         },
         cashier: {
-            email: 'netzon.cashier@mailinator.com',
+            email: 'test@mailinator.com',
             password: 'password',
         },
         consumer: {
-            email: 'netzon.consumer@mailinator.com',
+            email: 'test@mailinator.com',
             password: 'password',
         }
     },
     STAGING: {
         admin: {
-            email: 'netzon.administrator@mailinator.com',
+            email: 'test@mailinator.com',
             password: 'password',
         },
         manager: {
-            email: 'netzon.cashier@mailinator.com',
+            email: 'test@mailinator.com',
             password: 'password',
         },
         cashier: {
-            email: 'netzon.cashier@mailinator.com',
+            email: 'test@mailinator.com',
             password: 'password',
         },
         consumer: {
-            email: 'netzon.consumer@mailinator.com',
+            email: 'test@mailinator.com',
             password: 'password',
         }
     },
     PREPROD: {
         admin: {
-            email: 'netzon.administrator@mailinator.com',
+            email: 'test@mailinator.com',
             password: 'password',
         },
         manager: {
-            email: 'netzon.store.manager@mailinator.com',
+            email: 'test@mailinator.com',
             password: 'password',
         },
         cashier: {
-            email: 'netzon.cashier@mailinator.com',
+            email: 'test@mailinator.com',
             password: 'password',
         },
         consumer: {
-            email: 'netzon.consumer@mailinator.com',
+            email: 'test@mailinator.com',
             password: 'password',
         }
     },
